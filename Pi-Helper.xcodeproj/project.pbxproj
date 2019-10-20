@@ -15,6 +15,13 @@
 		2821267C235926EB00072D52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2821267A235926EB00072D52 /* LaunchScreen.storyboard */; };
 		28212687235926EB00072D52 /* Pi_HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28212686235926EB00072D52 /* Pi_HelperTests.swift */; };
 		28212692235926EB00072D52 /* Pi_HelperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28212691235926EB00072D52 /* Pi_HelperUITests.swift */; };
+		282126A6235BE6EE00072D52 /* PiHoleDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126A5235BE6EE00072D52 /* PiHoleDataStore.swift */; };
+		282126A8235BE72800072D52 /* PiHole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126A7235BE72800072D52 /* PiHole.swift */; };
+		282126AA235BEE0F00072D52 /* PiHoleApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126A9235BEE0F00072D52 /* PiHoleApiService.swift */; };
+		282126AC235BF09800072D52 /* PiHoleDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126AB235BF09800072D52 /* PiHoleDetailsView.swift */; };
+		282126AE235BF21D00072D52 /* AddPiHoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126AD235BF21D00072D52 /* AddPiHoleView.swift */; };
+		282126B0235BF52F00072D52 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126AF235BF52F00072D52 /* ActivityIndicatorView.swift */; };
+		282126B4235C0F5400072D52 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 282126B6235C0F5400072D52 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +56,15 @@
 		2821268D235926EB00072D52 /* Pi-HelperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pi-HelperUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28212691235926EB00072D52 /* Pi_HelperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pi_HelperUITests.swift; sourceTree = "<group>"; };
 		28212693235926EB00072D52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		282126A5235BE6EE00072D52 /* PiHoleDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHoleDataStore.swift; sourceTree = "<group>"; };
+		282126A7235BE72800072D52 /* PiHole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHole.swift; sourceTree = "<group>"; };
+		282126A9235BEE0F00072D52 /* PiHoleApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHoleApiService.swift; sourceTree = "<group>"; };
+		282126AB235BF09800072D52 /* PiHoleDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHoleDetailsView.swift; sourceTree = "<group>"; };
+		282126AD235BF21D00072D52 /* AddPiHoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPiHoleView.swift; sourceTree = "<group>"; };
+		282126AF235BF52F00072D52 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		282126B3235C0EBF00072D52 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		282126B5235C0F5400072D52 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		282126B8235C0F8400072D52 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,10 +118,17 @@
 				2821266F235926E700072D52 /* AppDelegate.swift */,
 				28212671235926E700072D52 /* SceneDelegate.swift */,
 				28212673235926E700072D52 /* ContentView.swift */,
+				282126AD235BF21D00072D52 /* AddPiHoleView.swift */,
 				28212675235926EB00072D52 /* Assets.xcassets */,
 				2821267A235926EB00072D52 /* LaunchScreen.storyboard */,
 				2821267D235926EB00072D52 /* Info.plist */,
 				28212677235926EB00072D52 /* Preview Content */,
+				282126A5235BE6EE00072D52 /* PiHoleDataStore.swift */,
+				282126A7235BE72800072D52 /* PiHole.swift */,
+				282126A9235BEE0F00072D52 /* PiHoleApiService.swift */,
+				282126AB235BF09800072D52 /* PiHoleDetailsView.swift */,
+				282126AF235BF52F00072D52 /* ActivityIndicatorView.swift */,
+				282126B6235C0F5400072D52 /* Localizable.strings */,
 			);
 			path = "Pi-Helper";
 			sourceTree = "<group>";
@@ -222,6 +245,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"es-419",
 			);
 			mainGroup = 28212663235926E700072D52;
 			productRefGroup = 2821266D235926E700072D52 /* Products */;
@@ -241,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2821267C235926EB00072D52 /* LaunchScreen.storyboard in Resources */,
+				282126B4235C0F5400072D52 /* Localizable.strings in Resources */,
 				28212679235926EB00072D52 /* Preview Assets.xcassets in Resources */,
 				28212676235926EB00072D52 /* Assets.xcassets in Resources */,
 			);
@@ -267,9 +292,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				282126AC235BF09800072D52 /* PiHoleDetailsView.swift in Sources */,
+				282126A6235BE6EE00072D52 /* PiHoleDataStore.swift in Sources */,
+				282126AA235BEE0F00072D52 /* PiHoleApiService.swift in Sources */,
+				282126AE235BF21D00072D52 /* AddPiHoleView.swift in Sources */,
 				28212670235926E700072D52 /* AppDelegate.swift in Sources */,
 				28212672235926E700072D52 /* SceneDelegate.swift in Sources */,
+				282126B0235BF52F00072D52 /* ActivityIndicatorView.swift in Sources */,
 				28212674235926E700072D52 /* ContentView.swift in Sources */,
+				282126A8235BE72800072D52 /* PiHole.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,8 +340,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				2821267B235926EB00072D52 /* Base */,
+				282126B3235C0EBF00072D52 /* es-419 */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		282126B6235C0F5400072D52 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				282126B5235C0F5400072D52 /* en */,
+				282126B8235C0F8400072D52 /* es-419 */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -320,6 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -380,6 +422,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

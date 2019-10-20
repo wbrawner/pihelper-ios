@@ -10,12 +10,28 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello World")
+        stateContent
+    }
+    
+    var stateContent: AnyView {
+        switch self.dataStore.pihole {
+        case .success(_):
+            return AnyView(PiHoleDetailsView(self.dataStore))
+        case .failure(.loading):
+            return AnyView(ActivityIndicatorView(.constant(true)))
+        default:
+            return AnyView(AddPiHoleView(self.dataStore))
+        }
+    }
+    
+    @ObservedObject var dataStore: PiHoleDataStore
+    init(_ dataStore: PiHoleDataStore) {
+        self.dataStore = dataStore
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(PiHoleDataStore())
     }
 }
