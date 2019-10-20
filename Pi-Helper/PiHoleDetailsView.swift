@@ -18,8 +18,8 @@ struct PiHoleDetailsView: View {
                 }
                 Divider()
                 PiHoleActions(self.dataStore, pihole: self.pihole)
-            }
-        }.navigationBarTitle("Pi-Helper")
+            }.navigationBarTitle("Pi-Helper")
+        }
     }
     
     @ObservedObject var dataStore: PiHoleDataStore
