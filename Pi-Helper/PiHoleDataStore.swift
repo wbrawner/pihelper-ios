@@ -20,7 +20,11 @@ class PiHoleDataStore: ObservableObject {
     func loadSummary(_ host: String, apiKey: String? = nil) {
         self.pihole = .failure(.loading)
         
-        apiService.baseUrl = host
+        var safeHost = host
+        if !host.starts(with: "http://") || !host.starts(with: "https://") {
+            safeHost = "http://" + safeHost
+        }
+        apiService.baseUrl = safeHost
         apiService.apiKey = apiKey
         _ = apiService.loadSummary()
             .receive(on: DispatchQueue.main)
