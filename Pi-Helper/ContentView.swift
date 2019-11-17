@@ -16,11 +16,11 @@ struct ContentView: View {
     var stateContent: AnyView {
         switch self.dataStore.pihole {
         case .success(_):
-            return AnyView(PiHoleDetailsView(self.dataStore))
-        case .failure(.loading):
-            return AnyView(ActivityIndicatorView(.constant(true)))
+            return PiHoleDetailsView(self.dataStore).toAnyView()
+        case .failure(.networkError(.loading)):
+            return ActivityIndicatorView(.constant(true)).toAnyView()
         default:
-            return AnyView(AddPiHoleView(self.dataStore))
+            return AddPiHoleView(self.dataStore).toAnyView()
         }
     }
     

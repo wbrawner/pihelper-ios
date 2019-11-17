@@ -20,6 +20,10 @@ class PiHoleApiService {
         self.decoder = decoder
     }
     
+    func getVersion() -> AnyPublisher<VersionResponse, NetworkError> {
+        return get(queries: ["version": nil])
+    }
+    
     func loadSummary() -> AnyPublisher<PiHole, NetworkError> {
         return get()
     }
@@ -68,6 +72,7 @@ class PiHoleApiService {
         var request = URLRequest(url: url)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"
+        request.timeoutInterval = 0.5
         
         let task = URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { (data, res) -> Data in
@@ -91,6 +96,7 @@ class PiHoleApiService {
 
 enum NetworkError: Error {
     case loading
+    case cancelled
     case badRequest
     case notFound
     case unauthorized

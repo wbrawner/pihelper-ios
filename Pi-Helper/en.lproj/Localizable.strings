@@ -9,6 +9,9 @@
 "add_pihole" = "Add the IP address or hostname of your Pi-Hole to be able to view statistics. To enable or disable the Pi-Hole, you'll also need to enter the API key.";
 "ip_address" = "IP Address";
 "api_key_optional" = "API Key (Optional)";
+"scanning_ip_address" = "Scanning the network for your Pi-Hole…";
+"scan" = "Scan";
+"cancel" = "Cancel";
 "connect" = "Connect";
 "status" = "Status";
 "enabled" = "Enabled";

@@ -18,8 +18,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        
         self.dataStore = PiHoleDataStore()
+        if let host = UserDefaults.standard.string(forKey: PiHoleDataStore.HOST_KEY) {
+            // If we already have the address of a Pi we've previously connected to, try that
+            let apiKey = UserDefaults.standard.string(forKey: PiHoleDataStore.API_KEY)
+            self.dataStore!.baseUrl = host
+            self.dataStore!.apiKey = apiKey
+            self.dataStore!.loadSummary()
+        } else if let cString = resolver_get_dns_server_ip() {
+            // Otherwise the Pi is likely the DNS server (though not always true), so we can try connecting to it there
+            let dnsServerIp = String(cString: cString)
+            self.dataStore!.baseUrl = dnsServerIp
+            self.dataStore!.loadSummary()
+        }
+        
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView(self.dataStore!)
         

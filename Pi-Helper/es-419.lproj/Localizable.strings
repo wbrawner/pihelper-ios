@@ -9,6 +9,9 @@
 "add_pihole" = "Agrega la dirección IP o nombre de host de tu Pi-Hole para poder ver las estadísticas. Para habilitar o deshabilitar el Pi-Hole, también es necesario entregar la clave API.";
 "ip_address" = "Dirección IP";
 "api_key_optional" = "Clave API (Opcional)";
+"scanning_ip_address" = "Escaneando la red para el Pi-Hole…";
+"scan" = "Escanear";
+"cancel" = "Cancelar";
 "connect" = "Conectar";
 "status" = "Estado";
 "enabled" = "Habilitado";

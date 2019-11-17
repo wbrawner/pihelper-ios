@@ -110,6 +110,10 @@ struct StatusUpdate: Codable {
     let status: String
 }
 
+struct VersionResponse: Codable {
+    let version: Int
+}
+
 enum PiHoleStatus {
     case enabled
     case disabled
