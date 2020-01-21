@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Pi-Helper
+
+  Created by Billy Brawner on 10/19/19.
+  Copyright © 2019 William Brawner. All rights reserved.
+*/
+
+"add_pihole" = "Si ya sabe la dirección IP de su Pi-hole, puede introducirla abajo:";
+"ip_address" = "Dirección IP";
+"api_key_optional" = "Clave API (Opcional)";
+"scan_for_pihole" = "Si no sabe la dirección IP para su Pi-hole, Pi-Helper puede escanear su red para intentar a encontrarlo.";
+"no_wireless_connection" = "Si desea que Pi-Helper escanee su red para buscar a su Pi-hole, por favor conéctese a la misma red Wi-Fi en la que se encuentra su Pi-hole.";
+"scanning_ip_address" = "Escaneando la red para el Pi-Hole…";
+"connection_successful" = "¡Pi-Helper se ha conectado a su Pi-hole de manera existosa!";
+"instructions_add_api_key" = "Se tendrá que identificar para poder habilitar y deshabilitar el Pi-hole.";
+"prompt_password" = "Contraseña de interfaz Web para el Pi-hole";
+"prompt_api_key" = "Clave de API del Pi-hole";
+"connect_with_password" = "Identificarse con Contraseña";
+"connect_with_api_key" = "Identificarse con Clave API";
+"scan" = "Escanear";
+"cancel" = "Cancelar";
+"connect" = "Conectar";
+"status" = "Estado";
+"enabled" = "Habilitado";
+"disabled" = "Deshabilitado";
+"enable" = "Habilitar";
+"disable_10_sec" = "Deshabilitar por 10 Segundos";
+"disable_30_sec" = "Deshabilitar por 30 Segundos";
+"disable_5_min" = "Deshabilitar por 5 Minutos";
+"disable_custom" = "Deshabilitar por un Tiempo Personalizado";
+"disable_permanent" = "Deshabilitar Permanentemente";

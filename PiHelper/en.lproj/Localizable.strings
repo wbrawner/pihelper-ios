@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Pi-Helper
+
+  Created by Billy Brawner on 10/19/19.
+  Copyright © 2019 William Brawner. All rights reserved.
+*/
+
+"add_pihole" = "If you already know the IP address of your Pi-hole, you can also enter it below:";
+"ip_address" = "IP Address";
+"api_key_optional" = "API Key (Optional)";
+"scan_for_pihole" = "If you're not sure what the IP address for your Pi-Hole is, Pi-Helper can attempt to find it for you by scanning your network.";
+"no_wireless_connection" = "If you'd like Pi-Helper to scan your network to find your Pi-hole, please connect to the same Wi-Fi network that your Pi-hole is on.";
+"scanning_ip_address" = "Scanning the network for your Pi-Hole…";
+"connection_successful" = "Pi-Helper has successfully connected to your Pi-Hole!";
+"instructions_add_api_key" = "You'll need to authenticate in order to enable and disable the Pi-hole.";
+"prompt_password" = "Pi-hole Web Password";
+"prompt_api_key" = "Pi-hole API Key";
+"connect_with_password" = "Authenticate with Password";
+"connect_with_api_key" = "Authenticate with API Key";
+"scan" = "Scan";
+"cancel" = "Cancel";
+"connect" = "Connect";
+"status" = "Status";
+"enabled" = "Enabled";
+"disabled" = "Disabled";
+"enable" = "Enable";
+"disable_10_sec" = "Disable for 10 Seconds";
+"disable_30_sec" = "Disable for 30 Seconds";
+"disable_5_min" = "Disable for 5 Minutes";
+"disable_custom" = "Disable for a Custom Time";
+"disable_permanent" = "Disable Permanently";
