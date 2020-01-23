@@ -30,3 +30,7 @@
 "disable_5_min" = "Deshabilitar por 5 Minutos";
 "disable_custom" = "Deshabilitar por un Tiempo Personalizado";
 "disable_permanent" = "Deshabilitar Permanentemente";
+"scan_failed" = "Escaneo Falló";
+"try_direct_connection" = "PiHelper no pudo encontrar su Pi-hole en la red. Por favor intente conectar directamente con la dirección IP o nombre de máquina del Pi-hole."
+"connection_failed" = "Conexión Falló";
+"verify_ip_address" = "PiHelper no pudo conectar a su Pi-hole. Por favor verifique que haya introducido el nombre de máquina correcto y puerto si aplica."

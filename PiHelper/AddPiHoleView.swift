@@ -17,6 +17,11 @@ struct AddPiHoleView: View {
                 VStack(spacing: 30) {
                     Image("logo")
                     ScanButton(dataStore: self.dataStore)
+                        .alert(isPresented: .constant(self.dataStore.pihole == .failure(.scanFailed)), content: {
+                            Alert(title: Text("scan_failed"), message: Text("try_direct_connection"), dismissButton: .default(Text("OK"), action: {
+                                self.dataStore.pihole = .failure(.missingIpAddress)
+                            }))
+                        })
                     OrDivider()
                     Text("add_pihole")
                         .multilineTextAlignment(.center)
@@ -27,20 +32,15 @@ struct AddPiHoleView: View {
                         self.dataStore.connect(self.ipAddress)
                     }, label: { Text("connect") })
                         .buttonStyle(PiHelperButtonStyle())
+                        .alert(isPresented: .constant(self.dataStore.pihole == .failure(.connectionFailed)), content: {
+                            Alert(title: Text("connection_failed"), message: Text("verify_ip_address"), dismissButton: .default(Text("OK"), action: {
+                                self.dataStore.pihole = .failure(.missingIpAddress)
+                            }))
+                        })
                 }
                 .padding()
             }
             .navigationBarHidden(self.dataStore.pihole == .failure(.missingIpAddress))
-            .alert(isPresented: .constant(self.dataStore.pihole == .failure(.connectionFailed)), content: {
-                Alert(title: Text("connection_failed"), message: Text("verify_ip_address"), dismissButton: .default(Text("OK"), action: {
-                    self.dataStore.pihole = .failure(.missingIpAddress)
-                }))
-            })
-            .alert(isPresented: .constant(self.dataStore.pihole == .failure(.scanFailed)), content: {
-                Alert(title: Text("scan_failed"), message: Text("verify_ip_address"), dismissButton: .default(Text("OK"), action: {
-                    self.dataStore.pihole = .failure(.missingIpAddress)
-                }))
-            })
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

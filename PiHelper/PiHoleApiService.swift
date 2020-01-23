@@ -21,7 +21,7 @@ class PiHoleApiService {
     }
     
     func getVersion() -> AnyPublisher<VersionResponse, NetworkError> {
-        return get(queries: ["version": nil])
+        return get(queries: ["version": ""])
     }
     
     func loadSummary() -> AnyPublisher<PiHole, NetworkError> {
@@ -29,22 +29,22 @@ class PiHoleApiService {
     }
     
     func enable() -> AnyPublisher<StatusUpdate, NetworkError> {
-        return get(true, queries: ["enable": nil])
+        return get(true, queries: ["enable": ""])
     }
     
     func disable(_ forSeconds: Int? = nil) -> AnyPublisher<StatusUpdate, NetworkError> {
-        var params = [String: String?]()
+        var params = [String: String]()
         if let timeToDisable = forSeconds {
             params["disable"] = String(timeToDisable)
         } else {
-            params["disable"] = nil
+            params["disable"] = ""
         }
         return get(true, queries: params)
     }
     
     private func get<ResultType: Codable>(
         _ requiresAuth: Bool = false,
-        queries: [String: String?]? = nil
+        queries: [String: String]? = nil
     ) -> AnyPublisher<ResultType, NetworkError> {
         guard let baseUrl = self.baseUrl else {
             return Result<ResultType, NetworkError>.Publisher(.failure(.invalidUrl))
@@ -60,8 +60,8 @@ class PiHoleApiService {
         for (key, value) in modifiedQueries {
             let separator = combinedEndPoint.contains("?") ? "&" : "?"
             combinedEndPoint += separator + key
-            if let notNilValue = value {
-                combinedEndPoint += "=" + notNilValue
+            if !value.isEmpty {
+                combinedEndPoint += "=" + value
             }
         }
         
