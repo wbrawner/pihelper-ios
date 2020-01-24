@@ -11,7 +11,7 @@ import SwiftUI
 struct RetrieveApiKeyView: View {
     @State var apiKey: String = ""
     @State var password: String = ""
-
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 30) {
@@ -37,7 +37,9 @@ struct RetrieveApiKeyView: View {
                     Text("connect_with_api_key")
                 })
                     .buttonStyle(PiHelperButtonStyle())
-            }.padding()
+            }
+            .padding()
+            .keyboardAwarePadding()
         }.onTapGesture {
             UIApplication.shared.endEditing()
         }

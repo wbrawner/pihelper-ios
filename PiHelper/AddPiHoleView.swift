@@ -39,6 +39,7 @@ struct AddPiHoleView: View {
                         })
                 }
                 .padding()
+                .keyboardAwarePadding()
             }
             .navigationBarHidden(self.dataStore.pihole == .failure(.missingIpAddress))
         }
