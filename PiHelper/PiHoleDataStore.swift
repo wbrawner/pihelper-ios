@@ -195,7 +195,13 @@ class PiHoleDataStore: ObservableObject {
     
     func cancelRequest() {
         self.currentRequest?.cancel()
-        self.pihole = .failure(.networkError(self.oldPiHole, error: .cancelled))
+        if (self.pihole != .failure(.missingApiKey)) {
+            // TODO: Find a better way to handle this
+            // The problem is that without this check, the scanning functionality is essentially broken because
+            // it finds the correct IP, navigates to the authentication screen, but then immediately navigates
+            // back to the IP input screen.
+            self.pihole = .failure(.networkError(self.oldPiHole, error: .cancelled))
+        }
     }
     
     func loadSummary(completionBlock: (() -> Void)? = nil) {
