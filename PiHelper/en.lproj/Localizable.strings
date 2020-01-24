@@ -31,6 +31,6 @@
 "disable_custom" = "Disable for a Custom Time";
 "disable_permanent" = "Disable Permanently";
 "scan_failed" = "Scan Failed";
-"try_direct_connection" = "PiHelper was unable to find your Pi-hole on the network. Please try connecting directly via the Pi-hole's IP address or hostname."
+"try_direct_connection" = "PiHelper was unable to find your Pi-hole on the network. Please try connecting directly via the Pi-hole's IP address or hostname.";
 "connection_failed" = "Connection Failed";
-"verify_ip_address" = "PiHelper was unable to connect to your Pi-hole. Please verify that you've entered the correct host and port if applicable."
+"verify_ip_address" = "PiHelper was unable to connect to your Pi-hole. Please verify that you've entered the correct host and port if applicable.";
