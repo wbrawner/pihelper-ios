@@ -145,60 +145,17 @@ class PiHoleDataStore: ObservableObject {
     }
 
     func connectWithPassword(_ password: String) {
-        var request = URLRequest(url: URL(string: "\(self.apiService.baseUrl!)/admin/index.php?login")!)
-        request.httpMethod = "POST"
-        request.httpBody = "pw=\(password)".data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        currentRequest = URLSession.shared.dataTaskPublisher(for: request)
-            .sink(receiveCompletion: { (completion) in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                }
-            }) { (data, response) in
-                self.getApiToken()
+        if let hash = password.sha256Hash()?.sha256Hash() {
+            self.apiKey = hash
+        } else {
+            self.pihole = .failure(.invalidCredentials)
         }
     }
     
     func connectWithApiKey(_ apiToken: String) {
         self.apiKey = apiToken
     }
-    
-    private func getApiToken() {
-        var request = URLRequest(url: URL(string: "\(self.apiService.baseUrl!)/admin/scripts/pi-hole/php/api_token.php")!)
-        request.httpMethod = "GET"
-        currentRequest = URLSession.shared.dataTaskPublisher(for: request)
-            .receive(on: DispatchQueue.main)
-            .sink(
-                receiveCompletion: { (completion) in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print(error)
-                    }
-            },
-                receiveValue: { (data, response) in
-                    print(String(data: data, encoding: .utf8)!)
-                    guard let regex = try? NSRegularExpression(pattern: ".*Raw API Token: ([a-zA-Z0-9]+).*", options: []) else {
-                        print("Invalid regex")
-                        return
-                    }
-                    let apiTokenHtml = String(data: data, encoding: .utf8)!
-                    let matches = regex.matches(in: apiTokenHtml, options: [], range: NSMakeRange(0, apiTokenHtml.utf16.count))
-                    if let match = matches.first {
-                        let range = match.range(at:1)
-                        if let apiTokenRange = Range(range, in: apiTokenHtml) {
-                            let apiToken = apiTokenHtml[apiTokenRange]
-                            self.apiKey = String(apiToken)
-                        }
-                    }
-            }
-        )
-    }
-    
+
     func cancelRequest() {
         self.currentRequest?.cancel()
         if (self.pihole != .failure(.missingApiKey)) {
@@ -214,7 +171,7 @@ class PiHoleDataStore: ObservableObject {
         self.oldPiHole = try? self.pihole.get()
         self.pihole = .failure(.networkError(oldPiHole, error: .loading))
         
-        currentRequest = apiService.loadSummary()
+        self.currentRequest = apiService.loadSummary()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
@@ -222,6 +179,7 @@ class PiHoleDataStore: ObservableObject {
                     if let completionBlock = completionBlock {
                         completionBlock()
                     }
+                    self.currentRequest = nil
                     return
                 case .failure(let error):
                     self.pihole = .failure(.networkError(self.oldPiHole, error: error))
@@ -264,12 +222,12 @@ class PiHoleDataStore: ObservableObject {
     func enable() {
         self.oldPiHole = try! pihole.get()
         self.pihole = .failure(.networkError(self.oldPiHole, error: .loading))
-        currentRequest = self.apiService.enable()
+        self.currentRequest = self.apiService.enable()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
                 case .finished:
-                    // no-op
+                    self.currentRequest = nil
                     return
                 case .failure(let error):
                     self.pihole = .failure(.networkError(self.oldPiHole, error: error))
@@ -282,12 +240,12 @@ class PiHoleDataStore: ObservableObject {
     func disable(_ forSeconds: Int? = nil) {
         self.oldPiHole = try! pihole.get()
         self.pihole = .failure(.networkError(self.oldPiHole, error: .loading))
-        currentRequest = self.apiService.disable(forSeconds)
+        self.currentRequest = self.apiService.disable(forSeconds)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
                 case .finished:
-                    // no-op
+                    self.currentRequest = nil
                     return
                 case .failure(let error):
                     self.pihole = .failure(.networkError(self.oldPiHole, error: error))
@@ -325,6 +283,7 @@ enum PiHoleError : Error, Equatable {
     case scanning(_ ipAddress: String)
     case missingIpAddress
     case missingApiKey
+    case invalidCredentials
     case scanFailed
     case connectionFailed
     
@@ -337,6 +296,8 @@ enum PiHoleError : Error, Equatable {
         case (.missingIpAddress, .missingIpAddress):
             return true
         case (.missingApiKey, .missingApiKey):
+            return true
+        case (.invalidCredentials, .invalidCredentials):
             return true
         case (.scanFailed, .scanFailed):
             return true

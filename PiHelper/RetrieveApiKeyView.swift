@@ -40,8 +40,6 @@ struct RetrieveApiKeyView: View {
             }
             .padding()
             .keyboardAwarePadding()
-        }.onTapGesture {
-            UIApplication.shared.endEditing()
         }
         .onDisappear {
             self.dataStore.pihole = .failure(.missingIpAddress)

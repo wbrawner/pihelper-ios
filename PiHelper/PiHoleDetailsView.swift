@@ -93,13 +93,12 @@ struct PiHoleActions: View {
     var stateContent: AnyView {
         switch pihole.status {
         case "disabled":
-            return AnyView(
-                Button(action: { self.dataStore.enable() }, label: { Text("enable") })
-                    .buttonStyle(PiHelperButtonStyle(.green))
-                    .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-            )
-        default:
-            return AnyView(VStack {
+            return Button(action: { self.dataStore.enable() }, label: { Text("enable") })
+                .buttonStyle(PiHelperButtonStyle(.green))
+                .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
+                .toAnyView()
+        case "enabled":
+            return VStack {
                 Button(action: { self.dataStore.disable(10) }, label: { Text("disable_10_sec") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
@@ -109,13 +108,16 @@ struct PiHoleActions: View {
                 Button(action: { self.dataStore.disable(300) }, label: { Text("disable_5_min") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-//                Button(action: { self.dataStore.disable(300) }, label: { Text("disable_custom") })
-//                    .buttonStyle(PiHelperButtonStyle())
-//                    .padding(.horizontal)
+                //                Button(action: { self.dataStore.disable(300) }, label: { Text("disable_custom") })
+                //                    .buttonStyle(PiHelperButtonStyle())
+                //                    .padding(.horizontal)
                 Button(action: { self.dataStore.disable() }, label: { Text("disable_permanent") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-                })
+            }.toAnyView()
+        default:
+            return Text("Unable to load Pi-hole status. Please verify your credentials and ensure the Pi-hole is accessible from your current network.")
+            .toAnyView()
         }
     }
     
