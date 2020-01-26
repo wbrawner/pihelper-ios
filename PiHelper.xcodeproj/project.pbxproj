@@ -30,6 +30,7 @@
 		28D7205C2380C2090038D439 /* resolver.c in Sources */ = {isa = PBXBuildFile; fileRef = 28D7205B2380C2090038D439 /* resolver.c */; };
 		28EC1E3A23A441F30088BA26 /* OrDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EC1E3923A441F30088BA26 /* OrDivider.swift */; };
 		28EC1E3C23A448940088BA26 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EC1E3B23A448940088BA26 /* Styles.swift */; };
+		80E91FA723DE160100B7FB55 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E91FA623DE160100B7FB55 /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,12 +79,13 @@
 		28D2125B23A59057003B33F2 /* ScanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningView.swift; sourceTree = "<group>"; };
 		28D7204E238067B20038D439 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		28D72050238067EC0038D439 /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
-		28D720522380689E0038D439 /* Pi-Helper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pi-Helper-Bridging-Header.h"; sourceTree = "<group>"; };
+		28D720522380689E0038D439 /* PiHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PiHelper-Bridging-Header.h"; sourceTree = "<group>"; };
 		28D7205823808E8C0038D439 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		28D7205A2380C2090038D439 /* resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resolver.h; sourceTree = "<group>"; };
 		28D7205B2380C2090038D439 /* resolver.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resolver.c; sourceTree = "<group>"; };
 		28EC1E3923A441F30088BA26 /* OrDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrDivider.swift; sourceTree = "<group>"; };
 		28EC1E3B23A448940088BA26 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		80E91FA623DE160100B7FB55 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +138,7 @@
 		2821266E235926E700072D52 /* PiHelper */ = {
 			isa = PBXGroup;
 			children = (
-				28D720522380689E0038D439 /* Pi-Helper-Bridging-Header.h */,
+				28D720522380689E0038D439 /* PiHelper-Bridging-Header.h */,
 				2821266F235926E700072D52 /* AppDelegate.swift */,
 				28212671235926E700072D52 /* SceneDelegate.swift */,
 				28212673235926E700072D52 /* ContentView.swift */,
@@ -159,6 +161,7 @@
 				28EC1E3B23A448940088BA26 /* Styles.swift */,
 				28D2125B23A59057003B33F2 /* ScanningView.swift */,
 				280F0D6223DA9B1800D341B7 /* KeyboardHelper.swift */,
+				80E91FA623DE160100B7FB55 /* AboutView.swift */,
 			);
 			path = PiHelper;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 			files = (
 				280F0D6323DA9B1800D341B7 /* KeyboardHelper.swift in Sources */,
 				28D2125C23A59057003B33F2 /* ScanningView.swift in Sources */,
+				80E91FA723DE160100B7FB55 /* AboutView.swift in Sources */,
 				282126AC235BF09800072D52 /* PiHoleDetailsView.swift in Sources */,
 				28EC1E3C23A448940088BA26 /* Styles.swift in Sources */,
 				282126A6235BE6EE00072D52 /* PiHoleDataStore.swift in Sources */,

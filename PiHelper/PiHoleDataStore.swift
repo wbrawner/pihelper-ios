@@ -138,6 +138,12 @@ class PiHoleDataStore: ObservableObject {
             })
     }
     
+    func forgetPihole() {
+        self.baseUrl = nil
+        self.apiKey = nil
+        self.pihole = .failure(.missingIpAddress)
+    }
+
     func connectWithPassword(_ password: String) {
         var request = URLRequest(url: URL(string: "\(self.apiService.baseUrl!)/admin/index.php?login")!)
         request.httpMethod = "POST"

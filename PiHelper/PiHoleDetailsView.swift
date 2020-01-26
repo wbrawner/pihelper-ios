@@ -25,7 +25,9 @@ struct PiHoleDetailsView: View {
     
     var body: some View {
         NavigationView {
-            stateContent.navigationBarTitle("PiHelper")
+            stateContent
+                .navigationBarTitle("PiHelper")
+                .navigationBarItems(trailing: NavigationLink(destination: AboutView(self.dataStore), label: {Image(systemName: "info.circle")}))
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
