@@ -27,7 +27,10 @@ struct PiHoleDetailsView: View {
         NavigationView {
             stateContent
                 .navigationBarTitle("PiHelper")
-                .navigationBarItems(trailing: NavigationLink(destination: AboutView(self.dataStore), label: {Image(systemName: "info.circle")}))
+                .navigationBarItems(trailing: NavigationLink(destination: AboutView(self.dataStore), label: {
+                    Image(systemName: "info.circle")
+                        .padding()
+                }))
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
@@ -117,7 +120,7 @@ struct PiHoleActions: View {
             }.toAnyView()
         default:
             return Text("Unable to load Pi-hole status. Please verify your credentials and ensure the Pi-hole is accessible from your current network.")
-            .toAnyView()
+                .toAnyView()
         }
     }
     

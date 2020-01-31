@@ -34,6 +34,7 @@
 "try_direct_connection" = "PiHelper was unable to find your Pi-hole on the network. Please try connecting directly via the Pi-hole's IP address or hostname.";
 "connection_failed" = "Connection Failed";
 "verify_ip_address" = "PiHelper was unable to connect to your Pi-hole. Please verify that you've entered the correct host and port if applicable.";
+"verify_credentials" = "PiHelper was unable to connect to your Pi-hole. Please verify that you've entered the correct password or API key.";
 "pihelper" = "PiHelper";
 "pihelper_version" = "Version 1.0";
 "copyright" = "Copyright © 2019, 2020 William Brawner";

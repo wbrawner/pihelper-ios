@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Pi-Helper.xcodeproj">
+      location = "self:/Users/wbrawner/Projects/PiHelper/PiHelper.xcodeproj">
    </FileRef>
 </Workspace>

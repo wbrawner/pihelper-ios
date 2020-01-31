@@ -78,7 +78,7 @@ struct ScanButton: View {
             )
             NavigationLink(
                 destination: RetrieveApiKeyView(dataStore: self.dataStore),
-                isActive: .constant(self.dataStore.pihole == .failure(.missingApiKey)),
+                isActive: .constant(self.dataStore.pihole == .failure(.missingApiKey) || self.dataStore.pihole == .failure(.invalidCredentials)),
                 label: { EmptyView() }
             )
         }.toAnyView()

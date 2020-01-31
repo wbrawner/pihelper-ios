@@ -32,6 +32,10 @@ class PiHoleApiService {
         return get(true, queries: ["enable": ""])
     }
     
+    func getTopItems() -> AnyPublisher<TopItemsResponse, NetworkError> {
+        return get(true, queries: ["topItems": "25"])
+    }
+    
     func disable(_ forSeconds: Int? = nil) -> AnyPublisher<StatusUpdate, NetworkError> {
         var params = [String: String]()
         if let timeToDisable = forSeconds {

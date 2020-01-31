@@ -40,6 +40,11 @@ struct RetrieveApiKeyView: View {
             }
             .padding()
             .keyboardAwarePadding()
+            .alert(isPresented: .constant(self.dataStore.pihole == .failure(.invalidCredentials)), content: {
+                Alert(title: Text("connection_failed"), message: Text("verify_credentials"), dismissButton: .default(Text("OK"), action: {
+                    self.dataStore.pihole = .failure(.missingApiKey)
+                }))
+            })
         }
         .onDisappear {
             self.dataStore.pihole = .failure(.missingIpAddress)

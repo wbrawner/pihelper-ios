@@ -146,6 +146,16 @@ struct VersionResponse: Codable {
     let version: Int
 }
 
+struct TopItemsResponse: Codable {
+    let topQueries: [String:Int]
+    let topAds: [String:Int]
+    
+    enum CodingKeys: String, CodingKey {
+        case topQueries = "top_queries"
+        case topAds = "top_ads"
+    }
+}
+
 enum PiHoleStatus {
     case enabled
     case disabled

@@ -146,14 +146,28 @@ class PiHoleDataStore: ObservableObject {
 
     func connectWithPassword(_ password: String) {
         if let hash = password.sha256Hash()?.sha256Hash() {
-            self.apiKey = hash
+            connectWithApiKey(hash)
         } else {
             self.pihole = .failure(.invalidCredentials)
         }
     }
     
     func connectWithApiKey(_ apiToken: String) {
-        self.apiKey = apiToken
+        self.apiService.apiKey = apiToken
+        currentRequest = self.apiService.getTopItems()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { (completion) in
+                switch completion {
+                case .finished:
+                    return
+                case .failure(let error):
+                    self.pihole = .failure(.invalidCredentials)
+                    print("\(error)")
+                }
+            }, receiveValue: { topItems in
+                self.apiKey = apiToken
+            })
+
     }
 
     func cancelRequest() {
