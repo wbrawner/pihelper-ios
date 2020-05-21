@@ -127,9 +127,9 @@ struct Gravity: Codable, Equatable {
 }
 
 struct Relative: Codable, Equatable {
-    let days: String
-    let hours: String
-    let minutes: String
+    let days: Int
+    let hours: Int
+    let minutes: Int
     
     static func == (lhs: Relative, rhs: Relative) -> Bool {
         return lhs.days == rhs.days

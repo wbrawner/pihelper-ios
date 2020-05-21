@@ -157,9 +157,9 @@ struct PiHoleDetailsView_Previews: PreviewProvider {
                     fileExists: true,
                     absolute: 0,
                     relative: Relative(
-                        days: "",
-                        hours: "",
-                        minutes: ""
+                        days: 0,
+                        hours: 0,
+                        minutes: 0
                     )
                 )
             ))
