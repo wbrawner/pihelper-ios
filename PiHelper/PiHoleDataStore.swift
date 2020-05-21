@@ -190,13 +190,12 @@ class PiHoleDataStore: ObservableObject {
             .sink(receiveCompletion: { (completion) in
                 switch completion {
                 case .finished:
-                    if let completionBlock = completionBlock {
-                        completionBlock()
-                    }
                     self.currentRequest = nil
-                    return
                 case .failure(let error):
                     self.pihole = .failure(.networkError(self.oldPiHole, error: error))
+                }
+                if let completionBlock = completionBlock {
+                    completionBlock()
                 }
             }, receiveValue: { pihole in
                 UIApplication.shared.shortcutItems = [
