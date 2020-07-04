@@ -54,7 +54,7 @@
 /* Begin PBXFileReference section */
 		280AA3EA2390B302007841F1 /* RetrieveApiKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveApiKeyView.swift; sourceTree = "<group>"; };
 		280F0D6223DA9B1800D341B7 /* KeyboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
-		2821266C235926E700072D52 /* PiHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2821266C235926E700072D52 /* Pi-helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pi-helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2821266F235926E700072D52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28212671235926E700072D52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		28212673235926E700072D52 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 		2821266D235926E700072D52 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2821266C235926E700072D52 /* PiHelper.app */,
+				2821266C235926E700072D52 /* Pi-helper.app */,
 				28212682235926EB00072D52 /* Pi-HelperTests.xctest */,
 				2821268D235926EB00072D52 /* Pi-HelperUITests.xctest */,
 			);
@@ -221,7 +221,7 @@
 			);
 			name = "Pi-Helper";
 			productName = "Pi-Helper";
-			productReference = 2821266C235926E700072D52 /* PiHelper.app */;
+			productReference = 2821266C235926E700072D52 /* Pi-helper.app */;
 			productType = "com.apple.product-type.application";
 		};
 		28212681235926EB00072D52 /* Pi-HelperTests */ = {
@@ -543,9 +543,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
-				PRODUCT_NAME = PiHelper;
+				PRODUCT_NAME = "Pi-helper";
 				SWIFT_OBJC_BRIDGING_HEADER = "PiHelper/PiHelper-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -568,9 +568,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
-				PRODUCT_NAME = PiHelper;
+				PRODUCT_NAME = "Pi-helper";
 				SWIFT_OBJC_BRIDGING_HEADER = "PiHelper/PiHelper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
