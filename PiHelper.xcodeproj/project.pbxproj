@@ -30,6 +30,7 @@
 		28D7205C2380C2090038D439 /* resolver.c in Sources */ = {isa = PBXBuildFile; fileRef = 28D7205B2380C2090038D439 /* resolver.c */; };
 		28EC1E3A23A441F30088BA26 /* OrDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EC1E3923A441F30088BA26 /* OrDivider.swift */; };
 		28EC1E3C23A448940088BA26 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EC1E3B23A448940088BA26 /* Styles.swift */; };
+		80654D7B24B0E92A007B1E1A /* DisableCustomTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80654D7A24B0E92A007B1E1A /* DisableCustomTimeView.swift */; };
 		80E91FA723DE160100B7FB55 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E91FA623DE160100B7FB55 /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,7 @@
 		28D7205B2380C2090038D439 /* resolver.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resolver.c; sourceTree = "<group>"; };
 		28EC1E3923A441F30088BA26 /* OrDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrDivider.swift; sourceTree = "<group>"; };
 		28EC1E3B23A448940088BA26 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		80654D7A24B0E92A007B1E1A /* DisableCustomTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableCustomTimeView.swift; sourceTree = "<group>"; };
 		80E91FA623DE160100B7FB55 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +162,7 @@
 				28EC1E3923A441F30088BA26 /* OrDivider.swift */,
 				28EC1E3B23A448940088BA26 /* Styles.swift */,
 				28D2125B23A59057003B33F2 /* ScanningView.swift */,
+				80654D7A24B0E92A007B1E1A /* DisableCustomTimeView.swift */,
 				280F0D6223DA9B1800D341B7 /* KeyboardHelper.swift */,
 				80E91FA623DE160100B7FB55 /* AboutView.swift */,
 			);
@@ -352,6 +355,7 @@
 				28212674235926E700072D52 /* ContentView.swift in Sources */,
 				28D7205923808E8C0038D439 /* Extensions.swift in Sources */,
 				282126A8235BE72800072D52 /* PiHole.swift in Sources */,
+				80654D7B24B0E92A007B1E1A /* DisableCustomTimeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

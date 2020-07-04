@@ -40,3 +40,8 @@
 "copyright" = "Copyright © 2019, 2020 William Brawner";
 "forget_pihole" = "Forget Pi-hole";
 "view_on_github" = "View on GitHub";
+"duration" = "Duration";
+"seconds" = "Seconds";
+"minutes" = "Minutes";
+"hours" = "Hours";
+"disable" = "Disable";

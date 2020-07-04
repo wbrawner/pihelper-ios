@@ -111,9 +111,16 @@ struct PiHoleActions: View {
                 Button(action: { self.dataStore.disable(300) }, label: { Text("disable_5_min") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-                //                Button(action: { self.dataStore.disable(300) }, label: { Text("disable_custom") })
-                //                    .buttonStyle(PiHelperButtonStyle())
-                //                    .padding(.horizontal)
+                NavigationLink(
+                    destination: DisableCustomTimeView(self.dataStore),
+                    isActive: .constant(self.dataStore.showCustomDisableView),
+                    label: { EmptyView() }
+                )
+                Button(action: {
+                    self.dataStore.showCustomDisableView = true
+                }, label: { Text("disable_custom") })
+                    .buttonStyle(PiHelperButtonStyle())
+                    .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
                 Button(action: { self.dataStore.disable() }, label: { Text("disable_permanent") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)

@@ -15,6 +15,7 @@ class PiHoleDataStore: ObservableObject {
     private let IP_MAX = 255
     private var currentRequest: AnyCancellable? = nil
     private var oldPiHole: PiHole? = nil
+    @Published var showCustomDisableView = false
     @Published var pihole: Result<PiHole, PiHoleError>
     @Published var apiKey: String? = nil {
         didSet {
@@ -71,6 +72,7 @@ class PiHoleDataStore: ObservableObject {
         var addressParts = ipAddress.split(separator: ".")
         var chunks = 1
         var ipAddresses = [String]()
+        ipAddresses.append("pi.hole")
         while chunks <= IP_MAX {
             let chunkSize = (IP_MAX - IP_MIN + 1) / chunks
             if chunkSize == 1 {
@@ -250,7 +252,13 @@ class PiHoleDataStore: ObservableObject {
             })
     }
     
+    func disable(_ forDuration: Int, unit: Int) {
+        let multiplier = NSDecimalNumber(decimal: pow(60, unit + 1)).intValue
+        disable(forDuration * multiplier)
+    }
+    
     func disable(_ forSeconds: Int? = nil) {
+        self.showCustomDisableView = false
         self.oldPiHole = try! pihole.get()
         self.pihole = .failure(.networkError(self.oldPiHole, error: .loading))
         self.currentRequest = self.apiService.disable(forSeconds)
