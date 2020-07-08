@@ -253,7 +253,7 @@ class PiHoleDataStore: ObservableObject {
     }
     
     func disable(_ forDuration: Int, unit: Int) {
-        let multiplier = NSDecimalNumber(decimal: pow(60, unit + 1)).intValue
+        let multiplier = NSDecimalNumber(decimal: pow(60, unit)).intValue
         disable(forDuration * multiplier)
     }
     

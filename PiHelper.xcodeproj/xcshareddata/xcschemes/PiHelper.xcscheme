@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2821266B235926E700072D52"
-            BuildableName = "PiHelper.app"
+            BuildableName = "Pi-helper.app"
             BlueprintName = "Pi-Helper"
             ReferencedContainer = "container:PiHelper.xcodeproj">
          </BuildableReference>
