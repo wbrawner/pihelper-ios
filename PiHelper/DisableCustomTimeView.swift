@@ -44,33 +44,7 @@ struct DisableCustomTimeView_Previews: PreviewProvider {
     static var dataStore: PiHoleDataStore {
         get {
             let _dataStore = PiHoleDataStore()
-            _dataStore.pihole = .success(PiHole(
-                domainsBeingBlocked: 0,
-                dnsQueriesToday: 0,
-                adsBlockedToday: 0,
-                adsPercentageToday: 0.0,
-                uniqueDomains: 0,
-                queriesForwarded: 0,
-                clientsEverSeen: 0,
-                uniqueClients: 0,
-                dnsQueriesAllTypes: 0,
-                queriesCached: 0,
-                noDataReplies: 0,
-                nxDomainReplies: 0,
-                cnameReplies: 0,
-                ipReplies: 0,
-                privacyLevel: 0,
-                status: "enabled",
-                gravity: Gravity(
-                    fileExists: true,
-                    absolute: 0,
-                    relative: Relative(
-                        days: 0,
-                        hours: 0,
-                        minutes: 0
-                    )
-                )
-            ))
+            _dataStore.pihole = .success(.enabled)
             return _dataStore
         }
     }

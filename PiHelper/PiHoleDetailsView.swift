@@ -12,12 +12,18 @@ struct PiHoleDetailsView: View {
     var stateContent: AnyView {
         switch self.dataStore.pihole {
         case .success(let pihole):
-            return PiHoleActionsView(dataStore: self.dataStore, pihole: pihole).toAnyView()
-        case .failure(.networkError(let possiblePihole, _)):
-            guard let pihole = possiblePihole else {
-                return ActivityIndicatorView(.constant(true)).toAnyView()
+            return PiHoleActionsView(dataStore: self.dataStore, status: pihole).toAnyView()
+        case .failure(.loading(let previousStatus)):
+                if let status = previousStatus {
+                    return PiHoleActionsView(dataStore: self.dataStore, status: status).toAnyView()
+                } else {
+                    return ActivityIndicatorView(.constant(true)).toAnyView()
+                }
+        case .failure(.networkError(let error)):
+            switch (error) {
+            default:
+                return PiHoleActionsView(dataStore: self.dataStore, status: .unknown).toAnyView()
             }
-            return PiHoleActionsView(dataStore: self.dataStore, pihole: pihole).toAnyView()
         default:
             return ActivityIndicatorView(.constant(true)).toAnyView()
         }
@@ -52,39 +58,54 @@ struct PiHoleActionsView: View {
         VStack {
             HStack {
                 Text("status")
-                PiHoleStatusView(pihole)
+                PiHoleStatusView(status)
             }
-            PiHoleActions(self.dataStore, pihole: pihole)
+            DurationView(status)
+            PiHoleActions(self.dataStore, status: status)
         }
     }
     
     let dataStore: PiHoleDataStore
-    let pihole: PiHole
+    let status: PiHoleStatus
 }
 
 struct PiHoleStatusView: View {
     var body: some View {
-        Text(localizedStringKey).foregroundColor(foregroundColor)
+        Text(status.localizedStringKey).foregroundColor(status.foregroundColor)
     }
     
-    var localizedStringKey: LocalizedStringKey {
-        return LocalizedStringKey(pihole.status)
+    let status: PiHoleStatus
+    init(_ status: PiHoleStatus) {
+        self.status = status
+    }
+}
+
+struct DurationView: View {
+    var body: some View {
+        stateContent
     }
     
-    var foregroundColor: Color {
-        switch pihole.status {
-        case "enabled":
-            return .green
-        case "disabled":
-            return .red
+    var stateContent: AnyView {
+        switch status {
+        case .disabled(let duration):
+            if let durationString = duration {
+                return HStack {
+                    Text("time_remaining")
+                    Text(durationString)
+                        .frame(minWidth: 30)
+                }
+                .toAnyView()
+            } else {
+                return EmptyView().toAnyView()
+            }
         default:
-            return .gray
+            return EmptyView().toAnyView()
         }
     }
     
-    let pihole: PiHole
-    init(_ pihole: PiHole) {
-        self.pihole = pihole
+    let status: PiHoleStatus
+    init(_ status: PiHoleStatus) {
+        self.status = status
     }
 }
 
@@ -94,13 +115,13 @@ struct PiHoleActions: View {
     }
     
     var stateContent: AnyView {
-        switch pihole.status {
-        case "disabled":
+        switch status {
+        case .disabled:
             return Button(action: { self.dataStore.enable() }, label: { Text("enable") })
                 .buttonStyle(PiHelperButtonStyle(.green))
                 .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
                 .toAnyView()
-        case "enabled":
+        case .enabled:
             return VStack {
                 Button(action: { self.dataStore.disable(10) }, label: { Text("disable_10_sec") })
                     .buttonStyle(PiHelperButtonStyle())
@@ -132,10 +153,10 @@ struct PiHoleActions: View {
     }
     
     @ObservedObject var dataStore: PiHoleDataStore
-    let pihole: PiHole
-    init(_ dataStore: PiHoleDataStore, pihole: PiHole) {
+    let status: PiHoleStatus
+    init(_ dataStore: PiHoleDataStore, status: PiHoleStatus) {
         self.dataStore = dataStore
-        self.pihole = pihole
+        self.status = status
     }
 }
 
@@ -143,33 +164,7 @@ struct PiHoleDetailsView_Previews: PreviewProvider {
     static var dataStore: PiHoleDataStore {
         get {
             let _dataStore = PiHoleDataStore()
-            _dataStore.pihole = .success(PiHole(
-                domainsBeingBlocked: 0,
-                dnsQueriesToday: 0,
-                adsBlockedToday: 0,
-                adsPercentageToday: 0.0,
-                uniqueDomains: 0,
-                queriesForwarded: 0,
-                clientsEverSeen: 0,
-                uniqueClients: 0,
-                dnsQueriesAllTypes: 0,
-                queriesCached: 0,
-                noDataReplies: 0,
-                nxDomainReplies: 0,
-                cnameReplies: 0,
-                ipReplies: 0,
-                privacyLevel: 0,
-                status: "enabled",
-                gravity: Gravity(
-                    fileExists: true,
-                    absolute: 0,
-                    relative: Relative(
-                        days: 0,
-                        hours: 0,
-                        minutes: 0
-                    )
-                )
-            ))
+            _dataStore.pihole = .success(.disabled("20"))
             return _dataStore
         }
     }

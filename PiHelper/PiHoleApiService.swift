@@ -46,6 +46,37 @@ class PiHoleApiService {
         return get(true, queries: params)
     }
     
+    func getCustomDisableTimer() -> AnyPublisher<UInt, NetworkError> {
+        guard let baseUrl = self.baseUrl else {
+            return Result<UInt, NetworkError>.Publisher(.failure(.invalidUrl))
+                .eraseToAnyPublisher()
+        }
+        guard let url = URL(string: baseUrl + "/custom_disable_timer") else {
+            return Result<UInt, NetworkError>.Publisher(.failure(.invalidUrl))
+                .eraseToAnyPublisher()
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 0.5
+        let task = URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { (data, res) -> UInt in
+                guard let response = res as? HTTPURLResponse, 200...299 ~= response.statusCode else {
+                    switch (res as? HTTPURLResponse)?.statusCode {
+                    case 400: throw NetworkError.badRequest
+                    case 401, 403: throw NetworkError.unauthorized
+                    case 404: throw NetworkError.notFound
+                    default: throw NetworkError.unknown
+                    }
+                }
+                let dataString = String(data: data, encoding: .utf8) ?? "0"
+                return UInt(dataString) ?? 0
+        }
+        .mapError {
+            return $0 as! NetworkError
+        }
+        return task.eraseToAnyPublisher()
+    }
+    
     private func get<ResultType: Codable>(
         _ requiresAuth: Bool = false,
         queries: [String: String]? = nil

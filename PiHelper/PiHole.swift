@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct PiHole: Codable, Equatable {
     let domainsBeingBlocked: Int
@@ -156,8 +157,32 @@ struct TopItemsResponse: Codable {
     }
 }
 
-enum PiHoleStatus {
+enum PiHoleStatus: Equatable {
     case enabled
-    case disabled
+    case disabled(_ duration: String? = nil)
     case unknown
+    
+    var localizedStringKey: LocalizedStringKey {
+        var key: String
+        switch self {
+        case .enabled:
+            key = "enabled"
+        case .disabled:
+            key = "disabled"
+        default:
+            key = "unknown"
+        }
+        return LocalizedStringKey(key)
+    }
+    
+    var foregroundColor: Color {
+        switch self {
+        case .enabled:
+            return .green
+        case .disabled:
+            return .red
+        default:
+            return .gray
+        }
+    }
 }

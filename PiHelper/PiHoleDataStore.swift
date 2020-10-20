@@ -14,9 +14,8 @@ class PiHoleDataStore: ObservableObject {
     private let IP_MIN = 0
     private let IP_MAX = 255
     private var currentRequest: AnyCancellable? = nil
-    private var oldPiHole: PiHole? = nil
     @Published var showCustomDisableView = false
-    @Published var pihole: Result<PiHole, PiHoleError>
+    @Published var pihole: Result<PiHoleStatus, PiHoleError>
     @Published var apiKey: String? = nil {
         didSet {
             UserDefaults.standard.set(apiKey, forKey: PiHoleDataStore.API_KEY)
@@ -179,13 +178,17 @@ class PiHoleDataStore: ObservableObject {
             // The problem is that without this check, the scanning functionality is essentially broken because
             // it finds the correct IP, navigates to the authentication screen, but then immediately navigates
             // back to the IP input screen.
-            self.pihole = .failure(.networkError(self.oldPiHole, error: .cancelled))
+            self.pihole = .failure(.networkError(.cancelled))
         }
     }
     
     func loadSummary(completionBlock: (() -> Void)? = nil) {
-        self.oldPiHole = try? self.pihole.get()
-        self.pihole = .failure(.networkError(oldPiHole, error: .loading))
+        var previousStatus: PiHoleStatus? = nil
+        do {
+            previousStatus = try self.pihole.get()
+        } catch _ {
+        }
+        self.pihole = .failure(.loading(previousStatus))
         
         self.currentRequest = apiService.loadSummary()
             .receive(on: DispatchQueue.main)
@@ -194,7 +197,7 @@ class PiHoleDataStore: ObservableObject {
                 case .finished:
                     self.currentRequest = nil
                 case .failure(let error):
-                    self.pihole = .failure(.networkError(self.oldPiHole, error: error))
+                    self.pihole = .failure(.networkError(error))
                 }
                 if let completionBlock = completionBlock {
                     completionBlock()
@@ -230,13 +233,17 @@ class PiHoleDataStore: ObservableObject {
                         userInfo: ["forSeconds": 300 as NSSecureCoding]
                     )
                 ]
-                self.pihole = .success(pihole)
+                self.updateStatus(status: pihole.status)
             })
     }
     
     func enable() {
-        self.oldPiHole = try! pihole.get()
-        self.pihole = .failure(.networkError(self.oldPiHole, error: .loading))
+        var previousStatus: PiHoleStatus? = nil
+        do {
+            previousStatus = try self.pihole.get()
+        } catch _ {
+        }
+        self.pihole = .failure(.loading(previousStatus))
         self.currentRequest = self.apiService.enable()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { (completion) in
@@ -245,10 +252,10 @@ class PiHoleDataStore: ObservableObject {
                     self.currentRequest = nil
                     return
                 case .failure(let error):
-                    self.pihole = .failure(.networkError(self.oldPiHole, error: error))
+                    self.pihole = .failure(.networkError(error))
                 }
             }, receiveValue: { newStatus in
-                self.pihole = .success(self.oldPiHole!.copy(status: newStatus.status))
+                self.updateStatus(status: newStatus.status)
             })
     }
     
@@ -259,8 +266,12 @@ class PiHoleDataStore: ObservableObject {
     
     func disable(_ forSeconds: Int? = nil) {
         self.showCustomDisableView = false
-        self.oldPiHole = try! pihole.get()
-        self.pihole = .failure(.networkError(self.oldPiHole, error: .loading))
+        var previousStatus: PiHoleStatus? = nil
+        do {
+            previousStatus = try self.pihole.get()
+        } catch _ {
+        }
+        self.pihole = .failure(.loading(previousStatus))
         self.currentRequest = self.apiService.disable(forSeconds)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { (completion) in
@@ -269,10 +280,44 @@ class PiHoleDataStore: ObservableObject {
                     self.currentRequest = nil
                     return
                 case .failure(let error):
-                    self.pihole = .failure(.networkError(self.oldPiHole, error: error))
+                    self.pihole = .failure(.networkError(error))
                 }
             }, receiveValue: { newStatus in
-                self.pihole = .success(self.oldPiHole!.copy(status: newStatus.status))
+                self.updateStatus(status: newStatus.status)
+            })
+    }
+    
+    private func updateStatus(status: String) {
+        switch status {
+        case "disabled":
+            self.getDisabledDuration()
+        default:
+            self.pihole = .success(.enabled)
+        }
+    }
+    
+    private var customDisableTimeRequest: AnyCancellable? = nil
+    
+    private func getDisabledDuration() {
+        self.customDisableTimeRequest = self.apiService.getCustomDisableTimer()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { (completion) in
+                switch completion {
+                case .finished:
+                    return
+                case .failure(_):
+                    self.pihole = .success(.disabled())
+                    self.customDisableTimeRequest = nil
+                }
+            }, receiveValue: { timestamp in
+                let disabledUntil = TimeInterval(round(Double(timestamp) / 1000.0))
+                let now = Date().timeIntervalSince1970
+                if now > disabledUntil {
+                    self.pihole = .success(.disabled())
+                } else {
+                    self.pihole = .success(.disabled(UInt(disabledUntil - now).toDurationString()))
+                }
+                self.customDisableTimeRequest = nil
             })
     }
     
@@ -288,7 +333,7 @@ class PiHoleDataStore: ObservableObject {
         } else if apiKey == nil {
             self.pihole = .failure(.missingApiKey)
         } else {
-            self.pihole = .failure(.networkError(nil, error: .loading))
+            self.pihole = .failure(.networkError(.loading))
             self.loadSummary()
         }
     }
@@ -300,7 +345,8 @@ enum ShortcutAction: String {
 }
 
 enum PiHoleError : Error, Equatable {
-    case networkError(_ pihole: PiHole?, error: NetworkError)
+    case networkError(_ error: NetworkError)
+    case loading(_ previousStatus: PiHoleStatus? = nil)
     case scanning(_ ipAddress: String)
     case missingIpAddress
     case missingApiKey
@@ -310,8 +356,8 @@ enum PiHoleError : Error, Equatable {
     
     static func == (lhs: PiHoleError, rhs: PiHoleError) -> Bool {
         switch (lhs, rhs) {
-        case (.networkError(let pi1, let error1), .networkError(let pi2, let error2)):
-            return pi1 == pi2 && error1 == error2
+        case (.networkError(let error1), .networkError(let error2)):
+            return error1 == error2
         case (.scanning(_), .scanning(_)):
             return true
         case (.missingIpAddress, .missingIpAddress):
@@ -327,5 +373,32 @@ enum PiHoleError : Error, Equatable {
         default:
             return false
         }
+    }
+}
+
+extension UInt {
+    func toDurationString() -> String {
+        // I add one to the timestamp to prevent showing 0 seconds remaining
+        if (self < 60) {
+            return String(self + 1)
+        }
+        
+        var seconds: UInt = self + 1
+        var hours: UInt = 0
+        if (seconds >= 3600) {
+            hours = seconds / 3600
+            seconds -= hours * 3600
+        }
+        
+        var minutes: UInt = 0
+        if (seconds >= 60) {
+            minutes = seconds / 60
+            seconds -= minutes * 60
+        }
+        
+        if hours > 0 {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        }
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
