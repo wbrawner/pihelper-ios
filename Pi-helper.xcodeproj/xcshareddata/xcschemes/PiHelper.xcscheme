@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1120"
+   LastUpgradeVersion = "1310"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2821266B235926E700072D52"
-               BuildableName = "Pi-Helper.app"
-               BlueprintName = "Pi-Helper"
-               ReferencedContainer = "container:Pi-Helper.xcodeproj">
+               BuildableName = "Pi-helper.app"
+               BlueprintName = "Pi-helper"
+               ReferencedContainer = "container:Pi-helper.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28212681235926EB00072D52"
-               BuildableName = "Pi-HelperTests.xctest"
-               BlueprintName = "Pi-HelperTests"
-               ReferencedContainer = "container:Pi-Helper.xcodeproj">
+               BuildableName = "PihelperTests.xctest"
+               BlueprintName = "Pi-helperTests"
+               ReferencedContainer = "container:Pi-helper.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2821268C235926EB00072D52"
-               BuildableName = "Pi-HelperUITests.xctest"
-               BlueprintName = "Pi-HelperUITests"
-               ReferencedContainer = "container:Pi-Helper.xcodeproj">
+               BuildableName = "PihelperUITests.xctest"
+               BlueprintName = "Pi-helperUITests"
+               ReferencedContainer = "container:Pi-helper.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -66,19 +66,10 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2821266B235926E700072D52"
             BuildableName = "Pi-helper.app"
-            BlueprintName = "Pi-Helper"
-            ReferencedContainer = "container:PiHelper.xcodeproj">
+            BlueprintName = "Pi-helper"
+            ReferencedContainer = "container:Pi-helper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2821266B235926E700072D52"
-            BuildableName = "Pi-Helper.app"
-            BlueprintName = "Pi-Helper"
-            ReferencedContainer = "container:Pi-Helper.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -91,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2821266B235926E700072D52"
-            BuildableName = "Pi-Helper.app"
-            BlueprintName = "Pi-Helper"
-            ReferencedContainer = "container:Pi-Helper.xcodeproj">
+            BuildableName = "Pi-helper.app"
+            BlueprintName = "Pi-helper"
+            ReferencedContainer = "container:Pi-helper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

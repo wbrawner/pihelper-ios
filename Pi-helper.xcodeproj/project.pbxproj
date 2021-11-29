@@ -62,10 +62,10 @@
 		28212678235926EB00072D52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2821267B235926EB00072D52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2821267D235926EB00072D52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28212682235926EB00072D52 /* Pi-HelperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pi-HelperTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28212682235926EB00072D52 /* Pi-helperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pi-helperTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28212686235926EB00072D52 /* Pi_HelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pi_HelperTests.swift; sourceTree = "<group>"; };
 		28212688235926EB00072D52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2821268D235926EB00072D52 /* Pi-HelperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pi-HelperUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2821268D235926EB00072D52 /* Pi-helperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pi-helperUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28212691235926EB00072D52 /* Pi_HelperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pi_HelperUITests.swift; sourceTree = "<group>"; };
 		28212693235926EB00072D52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		282126A5235BE6EE00072D52 /* PiHoleDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHoleDataStore.swift; sourceTree = "<group>"; };
@@ -86,6 +86,7 @@
 		28D7205B2380C2090038D439 /* resolver.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resolver.c; sourceTree = "<group>"; };
 		28EC1E3923A441F30088BA26 /* OrDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrDivider.swift; sourceTree = "<group>"; };
 		28EC1E3B23A448940088BA26 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		80436C6C27555BDE003D48E4 /* Pi-helper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pi-helper.entitlements"; sourceTree = "<group>"; };
 		80654D7A24B0E92A007B1E1A /* DisableCustomTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableCustomTimeView.swift; sourceTree = "<group>"; };
 		80E91FA623DE160100B7FB55 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,9 +120,9 @@
 		28212663235926E700072D52 = {
 			isa = PBXGroup;
 			children = (
-				2821266E235926E700072D52 /* PiHelper */,
-				28212685235926EB00072D52 /* PiHelperTests */,
-				28212690235926EB00072D52 /* PiHelperUITests */,
+				2821266E235926E700072D52 /* Pi-helper */,
+				28212685235926EB00072D52 /* Pi-helperTests */,
+				28212690235926EB00072D52 /* Pi-helperUITests */,
 				2821266D235926E700072D52 /* Products */,
 				28D7204D238067B20038D439 /* Frameworks */,
 			);
@@ -131,15 +132,16 @@
 			isa = PBXGroup;
 			children = (
 				2821266C235926E700072D52 /* Pi-helper.app */,
-				28212682235926EB00072D52 /* Pi-HelperTests.xctest */,
-				2821268D235926EB00072D52 /* Pi-HelperUITests.xctest */,
+				28212682235926EB00072D52 /* Pi-helperTests.xctest */,
+				2821268D235926EB00072D52 /* Pi-helperUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2821266E235926E700072D52 /* PiHelper */ = {
+		2821266E235926E700072D52 /* Pi-helper */ = {
 			isa = PBXGroup;
 			children = (
+				80436C6C27555BDE003D48E4 /* Pi-helper.entitlements */,
 				28D720522380689E0038D439 /* PiHelper-Bridging-Header.h */,
 				2821266F235926E700072D52 /* AppDelegate.swift */,
 				28212671235926E700072D52 /* SceneDelegate.swift */,
@@ -166,7 +168,7 @@
 				280F0D6223DA9B1800D341B7 /* KeyboardHelper.swift */,
 				80E91FA623DE160100B7FB55 /* AboutView.swift */,
 			);
-			path = PiHelper;
+			path = "Pi-helper";
 			sourceTree = "<group>";
 		};
 		28212677235926EB00072D52 /* Preview Content */ = {
@@ -177,22 +179,22 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		28212685235926EB00072D52 /* PiHelperTests */ = {
+		28212685235926EB00072D52 /* Pi-helperTests */ = {
 			isa = PBXGroup;
 			children = (
 				28212686235926EB00072D52 /* Pi_HelperTests.swift */,
 				28212688235926EB00072D52 /* Info.plist */,
 			);
-			path = PiHelperTests;
+			path = "Pi-helperTests";
 			sourceTree = "<group>";
 		};
-		28212690235926EB00072D52 /* PiHelperUITests */ = {
+		28212690235926EB00072D52 /* Pi-helperUITests */ = {
 			isa = PBXGroup;
 			children = (
 				28212691235926EB00072D52 /* Pi_HelperUITests.swift */,
 				28212693235926EB00072D52 /* Info.plist */,
 			);
-			path = PiHelperUITests;
+			path = "Pi-helperUITests";
 			sourceTree = "<group>";
 		};
 		28D7204D238067B20038D439 /* Frameworks */ = {
@@ -207,9 +209,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2821266B235926E700072D52 /* Pi-Helper */ = {
+		2821266B235926E700072D52 /* Pi-helper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28212696235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-Helper" */;
+			buildConfigurationList = 28212696235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-helper" */;
 			buildPhases = (
 				28212668235926E700072D52 /* Sources */,
 				28212669235926E700072D52 /* Frameworks */,
@@ -219,14 +221,14 @@
 			);
 			dependencies = (
 			);
-			name = "Pi-Helper";
+			name = "Pi-helper";
 			productName = "Pi-Helper";
 			productReference = 2821266C235926E700072D52 /* Pi-helper.app */;
 			productType = "com.apple.product-type.application";
 		};
-		28212681235926EB00072D52 /* Pi-HelperTests */ = {
+		28212681235926EB00072D52 /* Pi-helperTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28212699235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-HelperTests" */;
+			buildConfigurationList = 28212699235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-helperTests" */;
 			buildPhases = (
 				2821267E235926EB00072D52 /* Sources */,
 				2821267F235926EB00072D52 /* Frameworks */,
@@ -237,14 +239,14 @@
 			dependencies = (
 				28212684235926EB00072D52 /* PBXTargetDependency */,
 			);
-			name = "Pi-HelperTests";
+			name = "Pi-helperTests";
 			productName = "Pi-HelperTests";
-			productReference = 28212682235926EB00072D52 /* Pi-HelperTests.xctest */;
+			productReference = 28212682235926EB00072D52 /* Pi-helperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2821268C235926EB00072D52 /* Pi-HelperUITests */ = {
+		2821268C235926EB00072D52 /* Pi-helperUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2821269C235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-HelperUITests" */;
+			buildConfigurationList = 2821269C235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-helperUITests" */;
 			buildPhases = (
 				28212689235926EB00072D52 /* Sources */,
 				2821268A235926EB00072D52 /* Frameworks */,
@@ -255,9 +257,9 @@
 			dependencies = (
 				2821268F235926EB00072D52 /* PBXTargetDependency */,
 			);
-			name = "Pi-HelperUITests";
+			name = "Pi-helperUITests";
 			productName = "Pi-HelperUITests";
-			productReference = 2821268D235926EB00072D52 /* Pi-HelperUITests.xctest */;
+			productReference = 2821268D235926EB00072D52 /* Pi-helperUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -267,7 +269,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = "William Brawner";
 				TargetAttributes = {
 					2821266B235926E700072D52 = {
@@ -284,7 +286,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 28212667235926E700072D52 /* Build configuration list for PBXProject "PiHelper" */;
+			buildConfigurationList = 28212667235926E700072D52 /* Build configuration list for PBXProject "Pi-helper" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -298,9 +300,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2821266B235926E700072D52 /* Pi-Helper */,
-				28212681235926EB00072D52 /* Pi-HelperTests */,
-				2821268C235926EB00072D52 /* Pi-HelperUITests */,
+				2821266B235926E700072D52 /* Pi-helper */,
+				28212681235926EB00072D52 /* Pi-helperTests */,
+				2821268C235926EB00072D52 /* Pi-helperUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -380,12 +382,12 @@
 /* Begin PBXTargetDependency section */
 		28212684235926EB00072D52 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2821266B235926E700072D52 /* Pi-Helper */;
+			target = 2821266B235926E700072D52 /* Pi-helper */;
 			targetProxy = 28212683235926EB00072D52 /* PBXContainerItemProxy */;
 		};
 		2821268F235926EB00072D52 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2821266B235926E700072D52 /* Pi-Helper */;
+			target = 2821266B235926E700072D52 /* Pi-helper */;
 			targetProxy = 2821268E235926EB00072D52 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -439,6 +441,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -463,7 +466,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -500,6 +503,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -518,7 +522,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -533,12 +537,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Pi-helper/Pi-helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PiHelper/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Pi-helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 9Z6DE6KNJ9;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PiHelper/Info.plist;
+				INFOPLIST_FILE = "Pi-helper/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -546,10 +552,11 @@
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
 				PRODUCT_NAME = "Pi-helper";
-				SWIFT_OBJC_BRIDGING_HEADER = "PiHelper/PiHelper-Bridging-Header.h";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Pi-helper/PiHelper-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -558,12 +565,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Pi-helper/Pi-helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PiHelper/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Pi-helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 9Z6DE6KNJ9;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PiHelper/Info.plist;
+				INFOPLIST_FILE = "Pi-helper/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -571,9 +580,10 @@
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
 				PRODUCT_NAME = "Pi-helper";
-				SWIFT_OBJC_BRIDGING_HEADER = "PiHelper/PiHelper-Bridging-Header.h";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Pi-helper/PiHelper-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
@@ -595,7 +605,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pi-Helper.app/Pi-Helper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pi-helper.app/Pi-helper";
 			};
 			name = Debug;
 		};
@@ -617,7 +627,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pi-Helper.app/Pi-Helper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pi-helper.app/Pi-helper";
 			};
 			name = Release;
 		};
@@ -664,7 +674,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		28212667235926E700072D52 /* Build configuration list for PBXProject "PiHelper" */ = {
+		28212667235926E700072D52 /* Build configuration list for PBXProject "Pi-helper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28212694235926EB00072D52 /* Debug */,
@@ -673,7 +683,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28212696235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-Helper" */ = {
+		28212696235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-helper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28212697235926EB00072D52 /* Debug */,
@@ -682,7 +692,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28212699235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-HelperTests" */ = {
+		28212699235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-helperTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2821269A235926EB00072D52 /* Debug */,
@@ -691,7 +701,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2821269C235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-HelperUITests" */ = {
+		2821269C235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-helperUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2821269D235926EB00072D52 /* Debug */,
