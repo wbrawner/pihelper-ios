@@ -25,9 +25,9 @@ struct DisableCustomTimeView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-            Button(action: {
-                self.dataStore.disable(Int(self.duration) ?? 0, unit: self.unit)
-            }, label: { Text(LocalizedStringKey("disable")) })
+            Button(action: { Task {
+                await self.dataStore.disable(Int(self.duration) ?? 0, unit: self.unit)
+            } }, label: { Text(LocalizedStringKey("disable")) })
                 .buttonStyle(PiHelperButtonStyle())
         }
         .padding()

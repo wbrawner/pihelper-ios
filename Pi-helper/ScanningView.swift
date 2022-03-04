@@ -12,39 +12,34 @@ struct ScanningView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var dataStore: PiHoleDataStore
     
-    var stateContent: AnyView {
+    @ViewBuilder
+    var body: some View {
         switch dataStore.pihole {
-        case .failure(.scanning(let ipAddress)):
-            return ScrollView {
+        case .scanning(let ipAddress):
+            ScrollView {
                 VStack(spacing: 10) {
-                ActivityIndicatorView(.constant(true))
-                Text("scanning_ip_address")
-                Text(verbatim: ipAddress)
-                Button(action: {
-                    self.dataStore.cancelRequest()
-                }, label: { Text("cancel") })
-                    .buttonStyle(PiHelperButtonStyle())
+                    ActivityIndicatorView()
+                    Text("scanning_ip_address")
+                    Text(verbatim: ipAddress)
+                    Button(action: {
+                        self.dataStore.cancelScanning()
+                    }, label: { Text("cancel") })
+                        .buttonStyle(PiHelperButtonStyle())
                 }.padding()
-        }.toAnyView()
+            }
         default:
-            self.presentationMode.wrappedValue.dismiss()
-            return EmptyView().toAnyView()
+            EmptyView().onAppear {
+                self.presentationMode.wrappedValue.dismiss()
+            }
         }
     }
-    
-    var body: some View {
-        stateContent
-            .onDisappear {
-                self.dataStore.cancelRequest()
-            }
-    }
 }
-
+    
 struct ScanningView_Previews: PreviewProvider {
     static var dataStore: PiHoleDataStore {
         get {
             let dataStore = PiHoleDataStore()
-            dataStore.pihole = .failure(.scanning("127.0.0.1"))
+            dataStore.pihole = .scanning("127.0.0.1")
             return dataStore
         }
     }

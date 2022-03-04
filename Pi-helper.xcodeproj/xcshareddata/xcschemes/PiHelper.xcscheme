@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28212681235926EB00072D52"
-               BuildableName = "PihelperTests.xctest"
+               BuildableName = "Pi-helperTests.xctest"
                BlueprintName = "Pi-helperTests"
                ReferencedContainer = "container:Pi-helper.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2821268C235926EB00072D52"
-               BuildableName = "PihelperUITests.xctest"
+               BuildableName = "Pi-helperUITests.xctest"
                BlueprintName = "Pi-helperUITests"
                ReferencedContainer = "container:Pi-helper.xcodeproj">
             </BuildableReference>

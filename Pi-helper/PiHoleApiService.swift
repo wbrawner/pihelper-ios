@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Combine
 
 class PiHoleApiService {
     let decoder: JSONDecoder
@@ -20,70 +19,61 @@ class PiHoleApiService {
         self.decoder = decoder
     }
     
-    func getVersion() -> AnyPublisher<VersionResponse, NetworkError> {
-        return get(queries: ["version": ""])
+    func getVersion() async throws -> VersionResponse {
+        return try await get(queries: ["version": ""])
     }
     
-    func loadSummary() -> AnyPublisher<PiHole, NetworkError> {
-        return get()
+    func loadSummary() async throws -> PiHole {
+        return try await get()
     }
     
-    func enable() -> AnyPublisher<StatusUpdate, NetworkError> {
-        return get(true, queries: ["enable": ""])
+    func enable() async throws -> StatusUpdate {
+        return try await get(true, queries: ["enable": ""])
     }
     
-    func getTopItems() -> AnyPublisher<TopItemsResponse, NetworkError> {
-        return get(true, queries: ["topItems": "25"])
+    func getTopItems() async throws -> TopItemsResponse {
+        return try await get(true, queries: ["topItems": "25"])
     }
     
-    func disable(_ forSeconds: Int? = nil) -> AnyPublisher<StatusUpdate, NetworkError> {
+    func disable(_ forSeconds: Int? = nil) async throws -> StatusUpdate {
         var params = [String: String]()
         if let timeToDisable = forSeconds {
             params["disable"] = String(timeToDisable)
         } else {
             params["disable"] = ""
         }
-        return get(true, queries: params)
+        return try await get(true, queries: params)
     }
     
-    func getCustomDisableTimer() -> AnyPublisher<UInt, NetworkError> {
+    func getCustomDisableTimer() async throws -> UInt {
         guard let baseUrl = self.baseUrl else {
-            return Result<UInt, NetworkError>.Publisher(.failure(.invalidUrl))
-                .eraseToAnyPublisher()
+            throw NetworkError.invalidUrl
         }
         guard let url = URL(string: baseUrl + "/custom_disable_timer") else {
-            return Result<UInt, NetworkError>.Publisher(.failure(.invalidUrl))
-                .eraseToAnyPublisher()
+            throw NetworkError.invalidUrl
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = 0.5
-        let task = URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { (data, res) -> UInt in
-                guard let response = res as? HTTPURLResponse, 200...299 ~= response.statusCode else {
-                    switch (res as? HTTPURLResponse)?.statusCode {
-                    case 400: throw NetworkError.badRequest
-                    case 401, 403: throw NetworkError.unauthorized
-                    case 404: throw NetworkError.notFound
-                    default: throw NetworkError.unknown
-                    }
-                }
-                let dataString = String(data: data, encoding: .utf8) ?? "0"
-                return UInt(dataString) ?? 0
+        let (data, res) = try await URLSession.shared.data(for: request)
+        guard let response = res as? HTTPURLResponse, 200...299 ~= response.statusCode else {
+            switch (res as? HTTPURLResponse)?.statusCode {
+            case 400: throw NetworkError.badRequest
+            case 401, 403: throw NetworkError.unauthorized
+            case 404: throw NetworkError.notFound
+            default: throw NetworkError.unknown(nil)
+            }
         }
-        .mapError {
-            return $0 as! NetworkError
-        }
-        return task.eraseToAnyPublisher()
+        let dataString = String(data: data, encoding: .utf8) ?? "0"
+        return UInt(dataString) ?? 0
     }
     
     private func get<ResultType: Codable>(
         _ requiresAuth: Bool = false,
         queries: [String: String]? = nil
-    ) -> AnyPublisher<ResultType, NetworkError> {
+    ) async throws -> ResultType {
         guard let baseUrl = self.baseUrl else {
-            return Result<ResultType, NetworkError>.Publisher(.failure(.invalidUrl))
-                .eraseToAnyPublisher()
+            throw NetworkError.invalidUrl
         }
         
         var combinedEndPoint = baseUrl + "/admin/api.php"
@@ -101,7 +91,7 @@ class PiHoleApiService {
         }
         
         guard let url = URL(string: combinedEndPoint) else {
-            return Result.Publisher(.failure(.invalidUrl)).eraseToAnyPublisher()
+            throw NetworkError.invalidUrl
         }
         
         var request = URLRequest(url: url)
@@ -109,23 +99,20 @@ class PiHoleApiService {
         request.httpMethod = "GET"
         request.timeoutInterval = 0.5
         
-        let task = URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { (data, res) -> Data in
-                guard let response = res as? HTTPURLResponse, 200...299 ~= response.statusCode else {
-                    switch (res as? HTTPURLResponse)?.statusCode {
-                    case 400: throw NetworkError.badRequest
-                    case 401, 403: throw NetworkError.unauthorized
-                    case 404: throw NetworkError.notFound
-                    default: throw NetworkError.unknown
-                    }
+        do {
+            let (data, res) = try await URLSession.shared.data(for: request)
+            guard let response = res as? HTTPURLResponse, 200...299 ~= response.statusCode else {
+                switch (res as? HTTPURLResponse)?.statusCode {
+                case 400: throw NetworkError.badRequest
+                case 401, 403: throw NetworkError.unauthorized
+                case 404: throw NetworkError.notFound
+                default: throw NetworkError.unknown(nil)
                 }
-                return data
+            }
+            return try self.decoder.decode(ResultType.self, from: data)
+        } catch {
+            throw NetworkError.unknown(error)
         }
-        .decode(type: ResultType.self, decoder: self.decoder)
-        .mapError {
-            return NetworkError.jsonParsingFailed($0)
-        }
-        return task.eraseToAnyPublisher()
     }
 }
 
@@ -135,14 +122,12 @@ enum NetworkError: Error, Equatable {
     case badRequest
     case notFound
     case unauthorized
-    case unknown
+    case unknown(Error?)
     case invalidUrl
     case jsonParsingFailed(Error)
     
     static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
         switch (lhs, rhs) {
-        case (.loading, .loading):
-            return true
         case (.cancelled, .cancelled):
             return true
         case (.badRequest, .badRequest):
@@ -151,8 +136,8 @@ enum NetworkError: Error, Equatable {
             return true
         case (.unauthorized, .unauthorized):
             return true
-        case (.unknown, .unknown):
-            return true
+        case (.unknown(let error1), .unknown(let error2)):
+            return error1?.localizedDescription == error2?.localizedDescription
         case (.invalidUrl, .invalidUrl):
             return true
         case (.jsonParsingFailed(let error1), .jsonParsingFailed(let error2)):
@@ -162,5 +147,3 @@ enum NetworkError: Error, Equatable {
         }
     }
 }
-
-struct Empty: Codable {}

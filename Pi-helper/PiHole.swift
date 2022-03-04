@@ -157,7 +157,7 @@ struct TopItemsResponse: Codable {
     }
 }
 
-enum PiHoleStatus: Equatable {
+enum Status: Equatable {
     case enabled
     case disabled(_ duration: String? = nil)
     case unknown

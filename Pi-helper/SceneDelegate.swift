@@ -22,11 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // If we already have the address of a Pi we've previously connected to, try that
             let apiKey = UserDefaults.standard.string(forKey: PiHoleDataStore.API_KEY)
             self.dataStore = PiHoleDataStore(baseUrl: host, apiKey: apiKey)
-        //} else if let cString = resolver_get_dns_server_ip() {
-            // Otherwise the Pi is likely the DNS server (though not always true), so we can try connecting to it here
-          //  self.dataStore!.scan(String(cString: cString))
         } else {
             self.dataStore = PiHoleDataStore()
+            Task {
+                await self.dataStore?.scan("pi.hole")
+            }
         }
         
         // Create the SwiftUI view that provides the window contents.
@@ -55,10 +55,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Is there a shortcut item that has not yet been processed?
         if let shortcutItem = (UIApplication.shared.delegate as! AppDelegate).shortcutItemToProcess {
             if shortcutItem.type == ShortcutAction.enable.rawValue {
-                self.dataStore?.enable()
+                Task {
+                    await self.dataStore?.enable()
+                }
             } else {
                 let amount = shortcutItem.userInfo?["forSeconds"] as? Int
-                self.dataStore?.disable(amount)
+                Task {
+                    await self.dataStore?.disable(amount)
+                }
             }
 
             // Reset the shorcut item so it's never processed twice.

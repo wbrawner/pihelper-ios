@@ -10,6 +10,17 @@ import SwiftUI
 
 struct AddPiHoleView: View {
     @State var ipAddress: String = ""
+    @State var showScanFailed = false
+    @State var showConnectFailed = false
+    var hideNavigationBar: Bool {
+        get {
+            if case .scanning(_) = self.dataStore.pihole {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -17,9 +28,9 @@ struct AddPiHoleView: View {
                 VStack(spacing: 30) {
                     Image("logo")
                     ScanButton(dataStore: self.dataStore)
-                        .alert(isPresented: .constant(self.dataStore.pihole == .failure(.scanFailed)), content: {
+                        .alert(isPresented: self.$showScanFailed, content: {
                             Alert(title: Text("scan_failed"), message: Text("try_direct_connection"), dismissButton: .default(Text("OK"), action: {
-                                self.dataStore.pihole = .failure(.missingIpAddress)
+                                self.dataStore.pihole = .missingIpAddress
                             }))
                         })
                     OrDivider()
@@ -28,20 +39,27 @@ struct AddPiHoleView: View {
                     TextField("ip_address", text: $ipAddress)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.default)
-                    Button(action: {
-                        self.dataStore.connect(self.ipAddress)
-                    }, label: { Text("connect") })
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                        .onSubmit {
+                            Task {
+                                await self.dataStore.connect(self.ipAddress)
+                            }
+                        }
+                    Button(action: { Task {
+                        await self.dataStore.connect(self.ipAddress)
+                    } }, label: { Text("connect") })
                         .buttonStyle(PiHelperButtonStyle())
-                        .alert(isPresented: .constant(self.dataStore.pihole == .failure(.connectionFailed)), content: {
+                        .alert(isPresented: self.$showConnectFailed, content: {
                             Alert(title: Text("connection_failed"), message: Text("verify_ip_address"), dismissButton: .default(Text("OK"), action: {
-                                self.dataStore.pihole = .failure(.missingIpAddress)
+                                self.dataStore.pihole = .missingIpAddress
                             }))
                         })
                 }
                 .padding()
                 .keyboardAwarePadding()
             }
-            .navigationBarHidden(self.dataStore.pihole == .failure(.missingIpAddress))
+            .navigationBarHidden(self.hideNavigationBar)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -68,17 +86,19 @@ struct ScanButton: View {
             Text("scan_for_pihole")
                 .multilineTextAlignment(.center)
             Button(action: {
-                self.dataStore.beginScanning(ipAddress)
+                self.dataStore.scanTask = Task {
+                    await self.dataStore.beginScanning(ipAddress)
+                }
             }, label: { Text("scan") })
                 .buttonStyle(PiHelperButtonStyle())
             NavigationLink(
                 destination: ScanningView(dataStore: self.dataStore),
-                isActive: .constant(self.dataStore.pihole == .failure(.scanning(""))),
+                isActive: $dataStore.isScanning,
                 label: { EmptyView() }
             )
             NavigationLink(
                 destination: RetrieveApiKeyView(dataStore: self.dataStore),
-                isActive: .constant(self.dataStore.pihole == .failure(.missingApiKey) || self.dataStore.pihole == .failure(.invalidCredentials)),
+                isActive: .constant(self.dataStore.pihole == .missingApiKey),
                 label: { EmptyView() }
             )
         }.toAnyView()

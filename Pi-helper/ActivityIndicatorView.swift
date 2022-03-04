@@ -9,26 +9,22 @@
 import SwiftUI
 
 struct ActivityIndicatorView: View {
-    var isAnimating: Binding<Bool>
     @State private var rotation = 0.0
     
     var body: some View {
         Image("logo")
-            .rotationEffect(.degrees(rotation))
+            .resizable()
+            .frame(width: 100, height: 100)
+            .rotationEffect(.degrees(self.rotation))
+            .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false), value: self.rotation)
             .onAppear {
-                return withAnimation(self.isAnimating.wrappedValue ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : Animation.linear) {
-                    self.rotation = 360.0
-                }
-        }
-    }
-    
-    init(_ isAnimating: Binding<Bool>) {
-        self.isAnimating = isAnimating
+                self.rotation = 360
+            }
     }
 }
 
 struct ActivityIndicatorView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityIndicatorView(.constant(true))
+        ActivityIndicatorView()
     }
 }

@@ -11,6 +11,15 @@ import SwiftUI
 struct RetrieveApiKeyView: View {
     @State var apiKey: String = ""
     @State var password: String = ""
+    var showAlert: Bool {
+        get {
+            if case .invalidCredentials = self.dataStore.error {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
     
     var body: some View {
         ScrollView {
@@ -22,32 +31,42 @@ struct RetrieveApiKeyView: View {
                     .multilineTextAlignment(.center)
                 SecureField("prompt_password", text: self.$password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                Button(action: {
-                    self.dataStore.connectWithPassword(self.password)
-                }, label: {
+                    .onSubmit {
+                        Task {
+                            await self.dataStore.connectWithPassword(self.password)
+                        }
+                    }
+                Button(action: { Task {
+                    await self.dataStore.connectWithPassword(self.password)
+                } }, label: {
                     Text("connect_with_password")
                 })
                     .buttonStyle(PiHelperButtonStyle())
                 OrDivider()
                 SecureField("prompt_api_key", text: self.$apiKey)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                Button(action: {
-                    self.dataStore.connectWithApiKey(self.apiKey)
-                }, label: {
+                    .onSubmit {
+                        Task {
+                            await self.dataStore.connectWithApiKey(self.apiKey)
+                        }
+                    }
+                Button(action: { Task {
+                    await self.dataStore.connectWithApiKey(self.apiKey)
+                } }, label: {
                     Text("connect_with_api_key")
                 })
                     .buttonStyle(PiHelperButtonStyle())
             }
             .padding()
             .keyboardAwarePadding()
-            .alert(isPresented: .constant(self.dataStore.pihole == .failure(.invalidCredentials)), content: {
+            .alert(isPresented: .constant(showAlert), content: {
                 Alert(title: Text("connection_failed"), message: Text("verify_credentials"), dismissButton: .default(Text("OK"), action: {
-                    self.dataStore.pihole = .failure(.missingApiKey)
+                    self.dataStore.pihole = .missingApiKey
                 }))
             })
         }
         .onDisappear {
-            self.dataStore.pihole = .failure(.missingIpAddress)
+            self.dataStore.pihole = .missingIpAddress
         }
     }
     
