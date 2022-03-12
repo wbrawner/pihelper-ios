@@ -88,6 +88,7 @@
 		28EC1E3923A441F30088BA26 /* OrDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrDivider.swift; sourceTree = "<group>"; };
 		28EC1E3B23A448940088BA26 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		80436C6C27555BDE003D48E4 /* Pi-helper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pi-helper.entitlements"; sourceTree = "<group>"; };
+		805148A927D1B2C7008FF0A4 /* Pihelper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pihelper.framework; path = "../pihelper-android/shared/build/fat-framework/debug/Pihelper.framework"; sourceTree = "<group>"; };
 		80654D7A24B0E92A007B1E1A /* DisableCustomTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableCustomTimeView.swift; sourceTree = "<group>"; };
 		80A8CF842782190400CCCEC5 /* AsyncData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncData.swift; sourceTree = "<group>"; };
 		80E91FA623DE160100B7FB55 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -203,6 +204,7 @@
 		28D7204D238067B20038D439 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				805148A927D1B2C7008FF0A4 /* Pihelper.framework */,
 				28D72050238067EC0038D439 /* libresolv.9.tbd */,
 				28D7204E238067B20038D439 /* libresolv.tbd */,
 			);
@@ -216,6 +218,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28212696235926EB00072D52 /* Build configuration list for PBXNativeTarget "Pi-helper" */;
 			buildPhases = (
+				805148B027D1B6D1008FF0A4 /* ShellScript */,
 				28212668235926E700072D52 /* Sources */,
 				28212669235926E700072D52 /* Frameworks */,
 				2821266A235926E700072D52 /* Resources */,
@@ -337,6 +340,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		805148B027D1B6D1008FF0A4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/../pihelper-android\"\nexport JAVA_HOME=/Users/wbrawner/.sdkman/candidates/java/17.0.2-open\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		28212668235926E700072D52 /* Sources */ = {
@@ -547,6 +570,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Pi-helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 9Z6DE6KNJ9;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../pihelper-android/shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = "Pi-helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Pi-helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -556,6 +580,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Pihelper,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
 				PRODUCT_NAME = "Pi-helper";
 				SUPPORTS_MACCATALYST = YES;
@@ -577,6 +605,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Pi-helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 9Z6DE6KNJ9;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../pihelper-android/shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = "Pi-helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Pi-helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -586,6 +615,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Pihelper,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
 				PRODUCT_NAME = "Pi-helper";
 				SUPPORTS_MACCATALYST = YES;

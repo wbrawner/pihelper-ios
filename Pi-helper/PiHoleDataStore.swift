@@ -9,6 +9,7 @@
 import Foundation
 import Combine
 import UIKit
+import Pihelper
 
 @MainActor
 class PiHoleDataStore: ObservableObject {
@@ -37,29 +38,12 @@ class PiHoleDataStore: ObservableObject {
     }
     @Published var baseUrl: String? = nil {
         didSet {
-            let safeHost = prependScheme(baseUrl)
-            UserDefaults.standard.set(safeHost, forKey: PiHoleDataStore.HOST_KEY)
-            apiService.baseUrl = safeHost
+            UserDefaults.standard.set(baseUrl, forKey: PiHoleDataStore.HOST_KEY)
+            apiService.baseUrl = baseUrl
         }
     }
     private var shouldMonitorStatus = false
     var scanTask: Task<Any, Error>? = nil
-    
-    private func prependScheme(_ ipAddress: String?) -> String? {
-        guard let host = ipAddress?.lowercased() else {
-            return nil
-        }
-        
-        if host.isEmpty {
-            return nil
-        }
-        
-        if !host.starts(with: "http://") && !host.starts(with: "https://") {
-            return "http://" + host
-        }
-        
-        return host
-    }
     
     func monitorStatus() async {
         while apiKey != nil && baseUrl != nil && !Task.isCancelled {
@@ -97,26 +81,21 @@ class PiHoleDataStore: ObservableObject {
         self.pihole = .missingIpAddress
     }
     
-    func connect(_ rawIpAddress: String) async {
-        guard let formattedIpAddress = prependScheme(rawIpAddress) else {
-            self.error = .connectionFailed(rawIpAddress)
-            return
-        }
-        
-        self.apiService.baseUrl = formattedIpAddress
+    func connect(_ ipAddress: String) async {
+        self.apiService.baseUrl = ipAddress
         do {
             _ = try await self.apiService.getVersion()
-            self.baseUrl = formattedIpAddress
+            self.baseUrl = ipAddress
             self.pihole = .missingApiKey
         } catch {
-            self.error = .connectionFailed(formattedIpAddress)
+            self.error = .connectionFailed(ipAddress)
         }
     }
     
     func scan(_ ipAddress: String) async -> Bool {
         self.pihole = PiholeStatus.scanning(ipAddress)
         do {
-            self.apiService.baseUrl = prependScheme(ipAddress)
+            self.apiService.baseUrl = ipAddress
             _ = try await self.apiService.getVersion()
             self.baseUrl = self.apiService.baseUrl
             self.pihole = PiholeStatus.missingApiKey
@@ -162,7 +141,7 @@ class PiHoleDataStore: ObservableObject {
             self.pihole = .loading()
         }
         do {
-            let pihole = try await apiService.loadSummary()
+            let pihole = try await apiService.getSummary()
             await MainActor.run {
                 UIApplication.shared.shortcutItems = [
                     UIApplicationShortcutItem(
@@ -195,7 +174,7 @@ class PiHoleDataStore: ObservableObject {
                     )
                 ]
             }
-            await self.updateStatus(pihole.status)
+            await self.updateStatus(pihole.status.name)
             loadingTask?.cancel()
         } catch {
             if let error = error as? NetworkError {
@@ -214,7 +193,7 @@ class PiHoleDataStore: ObservableObject {
         self.pihole = .loading(previousStatus)
         do {
             let status = try await self.apiService.enable()
-            await self.updateStatus(status.status)
+            await self.updateStatus(status.status.name)
         } catch {
             self.error = .networkError(error as! NetworkError)
         }
@@ -232,8 +211,12 @@ class PiHoleDataStore: ObservableObject {
         }
         self.pihole = .loading(previousStatus)
         do {
-            let status = try await self.apiService.disable(forSeconds)
-            await self.updateStatus(status.status)
+            var duration: KotlinLong? = nil
+            if let seconds = forSeconds {
+                duration = KotlinLong(integerLiteral: seconds)
+            }
+            let status = try await self.apiService.disable(duration: duration)
+            await self.updateStatus(status.status.name)
         } catch {
             if let error = error as? NetworkError {
                 self.error = .networkError(error)
@@ -253,22 +236,24 @@ class PiHoleDataStore: ObservableObject {
     private var customDisableTimeRequest: AnyCancellable? = nil
     
     private func getDisabledDuration() async {
-        do {
-            let timestamp = try await self.apiService.getCustomDisableTimer()
-            let disabledUntil = TimeInterval(round(Double(timestamp) / 1000.0))
-            let now = Date().timeIntervalSince1970
-            if now > disabledUntil {
-                self.pihole = .success(.disabled())
-            } else {
-                self.pihole = .success(.disabled(UInt(disabledUntil - now).toDurationString()))
-            }
-            self.customDisableTimeRequest = nil
-        } catch {
-            self.pihole = .success(.disabled())
-        }
+        self.pihole = .success(.disabled())
+//        do {
+            
+//            let timestamp = try await self.apiService.getCustomDisableTimer()
+//            let disabledUntil = TimeInterval(round(Double(timestamp) / 1000.0))
+//            let now = Date().timeIntervalSince1970
+//            if now > disabledUntil {
+//                self.pihole = .success(.disabled())
+//            } else {
+//                self.pihole = .success(.disabled(UInt(disabledUntil - now).toDurationString()))
+//            }
+//            self.customDisableTimeRequest = nil
+//        } catch {
+//            self.pihole = .success(.disabled())
+//        }
     }
     
-    let apiService = PiHoleApiService()
+    let apiService = PiholeAPIService.companion.create()
     static let HOST_KEY = "host"
     static let API_KEY = "apiKey"
     
