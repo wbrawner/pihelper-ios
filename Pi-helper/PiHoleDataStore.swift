@@ -62,7 +62,7 @@ class PiHoleDataStore: ObservableObject {
     }
     
     func monitorStatus() async {
-        while !Task.isCancelled {
+        while apiKey != nil && baseUrl != nil && !Task.isCancelled {
             do {
                 try await Task.sleep(nanoseconds: 1_000_000_000)
                 await loadSummary()
