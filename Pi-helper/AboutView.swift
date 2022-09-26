@@ -9,14 +9,24 @@
 import SwiftUI
 
 struct AboutView: View {
+    var version: String? {
+        get {
+            Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        }
+    }
+    var currentYear: String {
+        get {
+            String(Calendar.current.dateComponents([.year], from: Date()).year ?? 2022)
+        }
+    }
     var body: some View {
         VStack {
             Image("logo")
             Text("pihelper")
                 .font(.title)
-            Text("pihelper_version")
+            Text("version \(version ?? "")")
                 .font(.subheadline)
-            Text("copyright")
+            Text("copyright \(currentYear)")
                 .font(.subheadline)
                 .padding(.bottom)
             Button(action: {

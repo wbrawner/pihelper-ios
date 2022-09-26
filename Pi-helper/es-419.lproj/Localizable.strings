@@ -36,8 +36,8 @@
 "verify_ip_address" = "Pi-helper no pudo conectar a su Pi-hole. Por favor verifique que haya introducido el nombre de máquina correcto y puerto si aplica.";
 "verify_credentials" = "Pi-helper no pudo conectar a su Pi-hole. Por favor verifique que haya introducido la contraseña o clave API correcta.";
 "pihelper" = "Pi-helper";
-"pihelper_version" = "Versión 1.0";
-"copyright" = "Derechos Reservados © 2019, 2020 William Brawner";
+"version %@" = "Versión %@";
+"copyright %@" = "Derechos Reservados © 2019-%@ William Brawner";
 "forget_pihole" = "Olvidar Pi-hole";
 "view_on_github" = "Ver en GitHub";
 "duration" = "Duración";

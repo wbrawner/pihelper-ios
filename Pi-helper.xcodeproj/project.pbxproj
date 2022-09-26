@@ -548,12 +548,14 @@
 				DEVELOPMENT_TEAM = 9Z6DE6KNJ9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Pi-helper/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pi-helper";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
 				PRODUCT_NAME = "Pi-helper";
 				SUPPORTS_MACCATALYST = YES;
@@ -576,12 +578,14 @@
 				DEVELOPMENT_TEAM = 9Z6DE6KNJ9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Pi-helper/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pi-helper";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wbrawner.pihelper;
 				PRODUCT_NAME = "Pi-helper";
 				SUPPORTS_MACCATALYST = YES;
