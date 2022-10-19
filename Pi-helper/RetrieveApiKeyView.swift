@@ -6,14 +6,17 @@
 //  Copyright © 2019 William Brawner. All rights reserved.
 //
 
+import Pihelper
 import SwiftUI
 
 struct RetrieveApiKeyView: View {
-    @State var apiKey: String = ""
-    @State var password: String = ""
+    @EnvironmentObject var store: PihelperStore
+    @SwiftUI.State var apiKey: String = ""
+    @SwiftUI.State var password: String = ""
+    
     var showAlert: Bool {
         get {
-            if case .invalidCredentials = self.dataStore.error {
+            if let error = self.store.sideEffect, error is EffectError {
                 return true
             } else {
                 return false
@@ -32,49 +35,47 @@ struct RetrieveApiKeyView: View {
                 SecureField("prompt_password", text: self.$password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .onSubmit {
-                        Task {
-                            await self.dataStore.connectWithPassword(self.password)
-                        }
+//                        self.store.dispatch(ActionAuthenticate(authString: AuthenticationStringPassword(value: password)))
+                        // TODO: Fix shared implementation and then use that instead
+                        self.store.dispatch(ActionAuthenticate(authString: AuthenticationStringToken(value: password.sha256Hash()?.sha256Hash() ?? "")))
                     }
-                Button(action: { Task {
-                    await self.dataStore.connectWithPassword(self.password)
-                } }, label: {
+                Button(action: {
+//                    self.store.dispatch(ActionAuthenticate(authString: AuthenticationStringPassword(value: password)))
+                    // TODO: Fix shared implementation and then use that instead
+                    self.store.dispatch(ActionAuthenticate(authString: AuthenticationStringToken(value: password.sha256Hash()?.sha256Hash() ?? "")))
+                }, label: {
                     Text("connect_with_password")
                 })
-                    .buttonStyle(PiHelperButtonStyle())
+                .buttonStyle(PiHelperButtonStyle())
                 OrDivider()
                 SecureField("prompt_api_key", text: self.$apiKey)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .onSubmit {
-                        Task {
-                            await self.dataStore.connectWithApiKey(self.apiKey)
-                        }
+                        self.store.dispatch(ActionAuthenticate(authString: AuthenticationStringToken(value: apiKey)))
                     }
-                Button(action: { Task {
-                    await self.dataStore.connectWithApiKey(self.apiKey)
-                } }, label: {
+                Button(action: {
+                    self.store.dispatch(ActionAuthenticate(authString: AuthenticationStringToken(value: apiKey)))
+                }, label: {
                     Text("connect_with_api_key")
                 })
-                    .buttonStyle(PiHelperButtonStyle())
+                .buttonStyle(PiHelperButtonStyle())
             }
             .padding()
             .keyboardAwarePadding()
             .alert(isPresented: .constant(showAlert), content: {
                 Alert(title: Text("connection_failed"), message: Text("verify_credentials"), dismissButton: .default(Text("OK"), action: {
-                    self.dataStore.pihole = .missingApiKey
+                    self.store.sideEffect = nil
                 }))
             })
         }
         .onDisappear {
-            self.dataStore.pihole = .missingIpAddress
+            self.store.dispatch(ActionBack())
         }
     }
-    
-    @ObservedObject var dataStore: PiHoleDataStore
 }
 
 struct RetrieveApiKeyView_Previews: PreviewProvider {
     static var previews: some View {
-        RetrieveApiKeyView(dataStore: PiHoleDataStore())
+        RetrieveApiKeyView()
     }
 }

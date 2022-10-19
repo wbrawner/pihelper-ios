@@ -7,30 +7,22 @@
 //
 
 import UIKit
+import Pihelper
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    var dataStore: PiHoleDataStore?
+    var store: PihelperStore?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        if let host = UserDefaults.standard.string(forKey: PiHoleDataStore.HOST_KEY) {
-            // If we already have the address of a Pi we've previously connected to, try that
-            let apiKey = UserDefaults.standard.string(forKey: PiHoleDataStore.API_KEY)
-            self.dataStore = PiHoleDataStore(baseUrl: host, apiKey: apiKey)
-        } else {
-            self.dataStore = PiHoleDataStore()
-            Task {
-                await self.dataStore?.scan("pi.hole")
-            }
-        }
-        
+        let store = PihelperStore(store: Pihelper.Store.companion.create())
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView(self.dataStore!)
+        let contentView = ContentView()
+            .environmentObject(store)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
@@ -55,14 +47,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Is there a shortcut item that has not yet been processed?
         if let shortcutItem = (UIApplication.shared.delegate as! AppDelegate).shortcutItemToProcess {
             if shortcutItem.type == ShortcutAction.enable.rawValue {
-                Task {
-                    await self.dataStore?.enable()
-                }
+                self.store?.dispatch(ActionEnable())
             } else {
-                let amount = shortcutItem.userInfo?["forSeconds"] as? Int
-                Task {
-                    await self.dataStore?.disable(amount)
+                var kAmount: KotlinLong? = nil
+                if let amount = shortcutItem.userInfo?["forSeconds"] as? Int {
+                    kAmount = KotlinLong(value: Int64(amount))
                 }
+                self.store?.dispatch(ActionDisable(duration: kAmount))
             }
 
             // Reset the shorcut item so it's never processed twice.
@@ -92,3 +83,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
+enum ShortcutAction: String {
+    case enable = "EnableAction"
+    case disable = "DisableAction"
+}

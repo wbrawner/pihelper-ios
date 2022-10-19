@@ -6,11 +6,14 @@
 //  Copyright © 2020 William Brawner. All rights reserved.
 //
 
+import Pihelper
 import SwiftUI
 
 struct DisableCustomTimeView: View {
-    @State var duration: String = ""
-    @State var unit: Int = 0
+    @EnvironmentObject var store: PihelperStore
+    @Binding var showCustom: Bool
+    @SwiftUI.State var duration: String = ""
+    @SwiftUI.State var unit: Int = 0
     private let units = ["seconds", "minutes", "hours"]
     
     var body: some View {
@@ -20,36 +23,25 @@ struct DisableCustomTimeView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
             Picker("", selection: $unit) {
-                ForEach(0 ..< units.count) {
+                ForEach(0 ..< 3) {
                     Text(LocalizedStringKey(self.units[$0])).tag($0)
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-            Button(action: { Task {
-                await self.dataStore.disable(Int(self.duration) ?? 0, unit: self.unit)
-            } }, label: { Text(LocalizedStringKey("disable")) })
+            Button(action: {
+                let multiplier = NSDecimalNumber(decimal: pow(60, unit)).intValue
+                self.store.dispatch(ActionDisable(duration: KotlinLong(value: Int64((Int(duration) ?? 0) * multiplier))))
+                self.showCustom = false
+            }, label: { Text(LocalizedStringKey("disable")) })
                 .buttonStyle(PiHelperButtonStyle())
         }
         .padding()
         .keyboardAwarePadding()
     }
-    
-    @ObservedObject var dataStore: PiHoleDataStore
-    init(_ dataStore: PiHoleDataStore) {
-        self.dataStore = dataStore
-    }
 }
 
 struct DisableCustomTimeView_Previews: PreviewProvider {
-    static var dataStore: PiHoleDataStore {
-        get {
-            let _dataStore = PiHoleDataStore()
-            _dataStore.pihole = .success(.enabled)
-            return _dataStore
-        }
-    }
-    
     static var previews: some View {
-        DisableCustomTimeView(self.dataStore)
+        DisableCustomTimeView(showCustom: .constant(true))
     }
 }

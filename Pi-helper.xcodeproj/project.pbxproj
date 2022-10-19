@@ -17,9 +17,6 @@
 		2821267C235926EB00072D52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2821267A235926EB00072D52 /* LaunchScreen.storyboard */; };
 		28212687235926EB00072D52 /* Pi_HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28212686235926EB00072D52 /* Pi_HelperTests.swift */; };
 		28212692235926EB00072D52 /* Pi_HelperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28212691235926EB00072D52 /* Pi_HelperUITests.swift */; };
-		282126A6235BE6EE00072D52 /* PiHoleDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126A5235BE6EE00072D52 /* PiHoleDataStore.swift */; };
-		282126A8235BE72800072D52 /* PiHole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126A7235BE72800072D52 /* PiHole.swift */; };
-		282126AA235BEE0F00072D52 /* PiHoleApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126A9235BEE0F00072D52 /* PiHoleApiService.swift */; };
 		282126AC235BF09800072D52 /* PiHoleDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126AB235BF09800072D52 /* PiHoleDetailsView.swift */; };
 		282126AE235BF21D00072D52 /* AddPiHoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126AD235BF21D00072D52 /* AddPiHoleView.swift */; };
 		282126B0235BF52F00072D52 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282126AF235BF52F00072D52 /* ActivityIndicatorView.swift */; };
@@ -32,6 +29,7 @@
 		28EC1E3C23A448940088BA26 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EC1E3B23A448940088BA26 /* Styles.swift */; };
 		80654D7B24B0E92A007B1E1A /* DisableCustomTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80654D7A24B0E92A007B1E1A /* DisableCustomTimeView.swift */; };
 		80A8CF852782190400CCCEC5 /* AsyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A8CF842782190400CCCEC5 /* AsyncData.swift */; };
+		80B3226928FE010E00CB33B5 /* PihelperStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3226828FE010E00CB33B5 /* PihelperStore.swift */; };
 		80E91FA723DE160100B7FB55 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E91FA623DE160100B7FB55 /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,9 +67,6 @@
 		2821268D235926EB00072D52 /* Pi-helperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pi-helperUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28212691235926EB00072D52 /* Pi_HelperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pi_HelperUITests.swift; sourceTree = "<group>"; };
 		28212693235926EB00072D52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		282126A5235BE6EE00072D52 /* PiHoleDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHoleDataStore.swift; sourceTree = "<group>"; };
-		282126A7235BE72800072D52 /* PiHole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHole.swift; sourceTree = "<group>"; };
-		282126A9235BEE0F00072D52 /* PiHoleApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHoleApiService.swift; sourceTree = "<group>"; };
 		282126AB235BF09800072D52 /* PiHoleDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiHoleDetailsView.swift; sourceTree = "<group>"; };
 		282126AD235BF21D00072D52 /* AddPiHoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPiHoleView.swift; sourceTree = "<group>"; };
 		282126AF235BF52F00072D52 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
@@ -91,6 +86,7 @@
 		805148A927D1B2C7008FF0A4 /* Pihelper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pihelper.framework; path = "../pihelper-android/shared/build/fat-framework/debug/Pihelper.framework"; sourceTree = "<group>"; };
 		80654D7A24B0E92A007B1E1A /* DisableCustomTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableCustomTimeView.swift; sourceTree = "<group>"; };
 		80A8CF842782190400CCCEC5 /* AsyncData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncData.swift; sourceTree = "<group>"; };
+		80B3226828FE010E00CB33B5 /* PihelperStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PihelperStore.swift; sourceTree = "<group>"; };
 		80E91FA623DE160100B7FB55 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,9 +154,6 @@
 				28D7205823808E8C0038D439 /* Extensions.swift */,
 				280F0D6223DA9B1800D341B7 /* KeyboardHelper.swift */,
 				28EC1E3923A441F30088BA26 /* OrDivider.swift */,
-				282126A7235BE72800072D52 /* PiHole.swift */,
-				282126A9235BEE0F00072D52 /* PiHoleApiService.swift */,
-				282126A5235BE6EE00072D52 /* PiHoleDataStore.swift */,
 				282126AB235BF09800072D52 /* PiHoleDetailsView.swift */,
 				280AA3EA2390B302007841F1 /* RetrieveApiKeyView.swift */,
 				28D2125B23A59057003B33F2 /* ScanningView.swift */,
@@ -171,6 +164,7 @@
 				282126B6235C0F5400072D52 /* Localizable.strings */,
 				28212677235926EB00072D52 /* Preview Content */,
 				80A8CF842782190400CCCEC5 /* AsyncData.swift */,
+				80B3226828FE010E00CB33B5 /* PihelperStore.swift */,
 			);
 			path = "Pi-helper";
 			sourceTree = "<group>";
@@ -368,11 +362,10 @@
 			files = (
 				280F0D6323DA9B1800D341B7 /* KeyboardHelper.swift in Sources */,
 				28D2125C23A59057003B33F2 /* ScanningView.swift in Sources */,
+				80B3226928FE010E00CB33B5 /* PihelperStore.swift in Sources */,
 				80E91FA723DE160100B7FB55 /* AboutView.swift in Sources */,
 				282126AC235BF09800072D52 /* PiHoleDetailsView.swift in Sources */,
 				28EC1E3C23A448940088BA26 /* Styles.swift in Sources */,
-				282126A6235BE6EE00072D52 /* PiHoleDataStore.swift in Sources */,
-				282126AA235BEE0F00072D52 /* PiHoleApiService.swift in Sources */,
 				280AA3EB2390B302007841F1 /* RetrieveApiKeyView.swift in Sources */,
 				28EC1E3A23A441F30088BA26 /* OrDivider.swift in Sources */,
 				282126AE235BF21D00072D52 /* AddPiHoleView.swift in Sources */,
@@ -382,7 +375,6 @@
 				282126B0235BF52F00072D52 /* ActivityIndicatorView.swift in Sources */,
 				28212674235926E700072D52 /* ContentView.swift in Sources */,
 				28D7205923808E8C0038D439 /* Extensions.swift in Sources */,
-				282126A8235BE72800072D52 /* PiHole.swift in Sources */,
 				80654D7B24B0E92A007B1E1A /* DisableCustomTimeView.swift in Sources */,
 				80A8CF852782190400CCCEC5 /* AsyncData.swift in Sources */,
 			);

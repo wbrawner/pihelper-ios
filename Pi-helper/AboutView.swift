@@ -6,9 +6,12 @@
 //  Copyright © 2020 William Brawner. All rights reserved.
 //
 
+import Pihelper
 import SwiftUI
 
 struct AboutView: View {
+    @EnvironmentObject var store: PihelperStore
+    
     var version: String? {
         get {
             Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
@@ -30,20 +33,18 @@ struct AboutView: View {
                 .font(.subheadline)
                 .padding(.bottom)
             Button(action: {
-                self.dataStore.forgetPihole()
+                self.store.dispatch(ActionForget())
             }, label: { Text("forget_pihole") })
-                .buttonStyle(PiHelperButtonStyle())
+            .buttonStyle(PiHelperButtonStyle())
         }.padding()
-    }
-    
-    @ObservedObject var dataStore: PiHoleDataStore
-    init(_ dataStore: PiHoleDataStore) {
-        self.dataStore = dataStore
+            .onDisappear {
+                self.store.dispatch(ActionBack())
+            }
     }
 }
 
 struct AboutView_Previews: PreviewProvider {
     static var previews: some View {
-        AboutView(PiHoleDataStore())
+        AboutView()
     }
 }

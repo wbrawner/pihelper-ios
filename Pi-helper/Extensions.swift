@@ -7,14 +7,9 @@
 //
 
 import Foundation
+import Pihelper
 import SwiftUI
 import CryptoKit
-
-extension View {
-    func toAnyView() -> AnyView {
-        return AnyView(self)
-    }
-}
 
 extension UIApplication {
     func endEditing() {
@@ -40,5 +35,58 @@ extension Digest {
         bytes.map { String(format: "%02X", $0) }
             .joined()
             .lowercased()
+    }
+}
+
+extension Status {
+    var localizedStringKey: LocalizedStringKey {
+        var key: String
+        switch self {
+        case .enabled:
+            key = "enabled"
+        case .disabled:
+            key = "disabled"
+        default:
+            key = "unknown"
+        }
+        return LocalizedStringKey(key)
+    }
+    
+    var foregroundColor: Color {
+        switch self {
+        case .enabled:
+            return .green
+        case .disabled:
+            return .red
+        default:
+            return .gray
+        }
+    }
+}
+
+extension UInt {
+    func toDurationString() -> String {
+        // I add one to the timestamp to prevent showing 0 seconds remaining
+        if (self < 60) {
+            return String(self + 1)
+        }
+
+        var seconds: UInt = self + 1
+        var hours: UInt = 0
+        if (seconds >= 3600) {
+            hours = seconds / 3600
+            seconds -= hours * 3600
+        }
+
+        var minutes: UInt = 0
+        if (seconds >= 60) {
+            minutes = seconds / 60
+            seconds -= minutes * 60
+        }
+
+        if hours > 0 {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        }
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }

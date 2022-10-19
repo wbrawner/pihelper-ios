@@ -6,15 +6,17 @@
 //  Copyright © 2019 William Brawner. All rights reserved.
 //
 
+import Pihelper
 import SwiftUI
 
 struct AddPiHoleView: View {
-    @State var ipAddress: String = ""
-    @State var showScanFailed = false
-    @State var showConnectFailed = false
+    @EnvironmentObject var store: PihelperStore
+    @SwiftUI.State var ipAddress: String = ""
+    @SwiftUI.State var showScanFailed = false
+    @SwiftUI.State var showConnectFailed = false
     var hideNavigationBar: Bool {
         get {
-            if case .scanning(_) = self.dataStore.pihole {
+            if case .scan = self.store.state.route {
                 return true
             } else {
                 return false
@@ -27,10 +29,10 @@ struct AddPiHoleView: View {
             ScrollView {
                 VStack(spacing: 30) {
                     Image("logo")
-                    ScanButton(dataStore: self.dataStore)
+                    ScanButton()
                         .alert(isPresented: self.$showScanFailed, content: {
                             Alert(title: Text("scan_failed"), message: Text("try_direct_connection"), dismissButton: .default(Text("OK"), action: {
-                                self.dataStore.pihole = .missingIpAddress
+                                self.store.sideEffect = nil
                             }))
                         })
                     OrDivider()
@@ -42,17 +44,14 @@ struct AddPiHoleView: View {
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
                         .onSubmit {
-                            Task {
-                                await self.dataStore.connect(self.ipAddress)
-                            }
+                            self.store.dispatch(ActionScan(deviceIp: self.ipAddress))
                         }
-                    Button(action: { Task {
-                        await self.dataStore.connect(self.ipAddress)
-                    } }, label: { Text("connect") })
+                    Button(action: { self.store.dispatch(ActionConnect(host: ipAddress))
+                    }, label: { Text("connect") })
                         .buttonStyle(PiHelperButtonStyle())
                         .alert(isPresented: self.$showConnectFailed, content: {
                             Alert(title: Text("connection_failed"), message: Text("verify_ip_address"), dismissButton: .default(Text("OK"), action: {
-                                self.dataStore.pihole = .missingIpAddress
+                                self.store.sideEffect = nil
                             }))
                         })
                 }
@@ -63,52 +62,42 @@ struct AddPiHoleView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
-    
-    @ObservedObject var dataStore: PiHoleDataStore
-    init(_ dataStore: PiHoleDataStore) {
-        self.dataStore = dataStore
-    }
 }
 
 struct ScanButton: View {
-    @ObservedObject var dataStore: PiHoleDataStore
-    
-    var statefulContent: AnyView {
-        guard let deviceIpAddress = resolver_get_device_ip() else {
-            return Text("no_wireless_connection")
+    @EnvironmentObject var store: PihelperStore
+
+    @ViewBuilder
+    var body: some View {
+        if let deviceIpAddress = resolver_get_device_ip() {
+            let ipAddress = String(cString: deviceIpAddress)
+            VStack(spacing: 30) {
+                Text("scan_for_pihole")
+                    .multilineTextAlignment(.center)
+                Button(action: {
+                    self.store.dispatch(ActionScan(deviceIp: ipAddress))
+                }, label: { Text("scan") })
+                    .buttonStyle(PiHelperButtonStyle())
+                NavigationLink(
+                    destination: ScanningView(),
+                    isActive: .constant(store.state.route == Route.scan),
+                    label: { EmptyView() }
+                )
+                NavigationLink(
+                    destination: RetrieveApiKeyView(),
+                    isActive: .constant(store.state.route == Route.auth),
+                    label: { EmptyView() }
+                )
+            }
+        } else {
+            Text("no_wireless_connection")
                 .multilineTextAlignment(.center)
-                .toAnyView()
         }
-        
-        let ipAddress = String(cString: deviceIpAddress)
-        
-        return VStack(spacing: 30) {
-            Text("scan_for_pihole")
-                .multilineTextAlignment(.center)
-            Button(action: {
-                self.dataStore.scanTask = Task {
-                    await self.dataStore.beginScanning(ipAddress)
-                }
-            }, label: { Text("scan") })
-                .buttonStyle(PiHelperButtonStyle())
-            NavigationLink(
-                destination: ScanningView(dataStore: self.dataStore),
-                isActive: $dataStore.isScanning,
-                label: { EmptyView() }
-            )
-            NavigationLink(
-                destination: RetrieveApiKeyView(dataStore: self.dataStore),
-                isActive: .constant(self.dataStore.pihole == .missingApiKey),
-                label: { EmptyView() }
-            )
-        }.toAnyView()
     }
-    
-    var body: some View { statefulContent }
 }
 
 struct AddPiHoleView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPiHoleView(PiHoleDataStore())
+        AddPiHoleView()
     }
 }

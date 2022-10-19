@@ -6,51 +6,32 @@
 //  Copyright © 2019 William Brawner. All rights reserved.
 //
 
+import Pihelper
 import SwiftUI
 
 struct PiHoleDetailsView: View {
+    @EnvironmentObject var store: PihelperStore
+    
     @ViewBuilder
-    func stateContent() -> some View {
-        switch self.dataStore.pihole {
-        case .success(let pihole):
-            PiHoleActionsView(dataStore: self.dataStore, status: pihole)
-        case .loading(let previousStatus):
-                if let status = previousStatus {
-                    PiHoleActionsView(dataStore: self.dataStore, status: status)
-                } else {
-                    ActivityIndicatorView()
-                }
-        case .error(let error):
-            switch (error) {
-            default:
-                PiHoleActionsView(dataStore: self.dataStore, status: .unknown)
-            }
-        default:
+    var stateContent: some View {
+        if self.store.state.loading {
             ActivityIndicatorView()
+        } else {
+            PiHoleActionsView()
         }
     }
     
     var body: some View {
         NavigationView {
-            stateContent()
-                .animation(.default, value: self.dataStore.pihole)
+            stateContent
+                .animation(.default, value: self.store.state.status)
                 .navigationBarTitle("Pi-helper")
-                .navigationBarItems(trailing: NavigationLink(destination: AboutView(self.dataStore), label: {
+                .navigationBarItems(trailing: NavigationLink(destination: AboutView(), label: {
                     Image(systemName: "info.circle")
                         .padding()
                 }))
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear {
-            Task {
-                await self.dataStore.monitorStatus()
-            }
-        }
-    }
-    
-    @ObservedObject var dataStore: PiHoleDataStore
-    init(_ dataStore: PiHoleDataStore) {
-        self.dataStore = dataStore
     }
 }
 
@@ -59,107 +40,90 @@ struct PiHoleActionsView: View {
         VStack {
             HStack {
                 Text("status")
-                PiholeStatusView(status)
+                PiholeStatusView()
             }
-            PiHoleActions(self.dataStore, status: status)
+            PiHoleActions()
         }
     }
-    
-    let dataStore: PiHoleDataStore
-    let status: Status
 }
 
 struct PiholeStatusView: View {
+    @EnvironmentObject var store: PihelperStore
+
     @ViewBuilder
     var body: some View {
         HStack {
-            Text(status.localizedStringKey)
-                .foregroundColor(status.foregroundColor)
-            if case let .disabled(duration) = status, let durationString = duration {
-                Text("(\(durationString))")
-                    .monospacedDigit()
+            if let status = store.state.status {
+                Text(status.localizedStringKey)
                     .foregroundColor(status.foregroundColor)
             }
+//            if case let .disabled(duration) = store.state.status, let durationString = duration {
+//                Text("(\(durationString))")
+//                    .monospacedDigit()
+//                    .foregroundColor(store.state.status.foregroundColor)
+//            }
         }
-    }
-    
-    let status: Status
-    init(_ status: Status) {
-        self.status = status
     }
 }
 
 struct PiHoleActions: View {
+    @EnvironmentObject var store: PihelperStore
+    @SwiftUI.State var showCustomDisable: Bool = false
+
     var body: some View {
         stateContent.padding()
     }
-    
-    var stateContent: AnyView {
-        switch status {
-        case .disabled:
-            return Button(action: { Task {
-                await self.dataStore.enable()
-            } }, label: { Text("enable") })
+
+    @ViewBuilder
+    var stateContent: some View {
+        switch self.store.state.status {
+        case Pihelper.Status.disabled:
+            Button(action: {
+                self.store.dispatch(ActionEnable())
+            }, label: { Text("enable") })
                 .buttonStyle(PiHelperButtonStyle(.green))
                 .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-                .toAnyView()
-        case .enabled:
-            return VStack {
-                Button(action: { Task {
-                    await self.dataStore.disable(10)
-                } }, label: { Text("disable_10_sec") })
-                    .buttonStyle(PiHelperButtonStyle())
-                    .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-                Button(action: { Task{
-                        await self.dataStore.disable(30)
-                } }, label: { Text("disable_30_sec") })
-                    .buttonStyle(PiHelperButtonStyle())
-                    .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-                Button(action: { Task {
-                    await self.dataStore.disable(300)
-                } }, label: { Text("disable_5_min") })
+        case Pihelper.Status.enabled:
+            VStack {
+                Button(action: {
+                    self.store.dispatch(ActionDisable(duration: 10))
+                }, label: { Text("disable_10_sec") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
                 Button(action: {
-                    self.dataStore.showCustomDisableView = true
+                    self.store.dispatch(ActionDisable(duration: 30))
+                }, label: { Text("disable_30_sec") })
+                    .buttonStyle(PiHelperButtonStyle())
+                    .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
+                Button(action: {
+                    self.store.dispatch(ActionDisable(duration: 300))
+                }, label: { Text("disable_5_min") })
+                    .buttonStyle(PiHelperButtonStyle())
+                    .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
+                Button(action: {
+                    self.showCustomDisable = true
                 }, label: { Text("disable_custom") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-                Button(action: { Task {
-                    await self.dataStore.disable()
-                } }, label: { Text("disable_permanent") })
+                Button(action: {
+                    self.store.dispatch(ActionDisable(duration: nil))
+                }, label: { Text("disable_permanent") })
                     .buttonStyle(PiHelperButtonStyle())
                     .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
                 NavigationLink(
-                    destination: DisableCustomTimeView(self.dataStore),
-                    isActive: self.$dataStore.showCustomDisableView,
+                    destination: DisableCustomTimeView(showCustom: self.$showCustomDisable),
+                    isActive: self.$showCustomDisable,
                     label: { EmptyView() }
                 )
-            }.toAnyView()
+            }
         default:
-            return Text("Unable to load Pi-hole status. Please verify your credentials and ensure the Pi-hole is accessible from your current network.")
-                .toAnyView()
+            Text("Unable to load Pi-hole status. Please verify your credentials and ensure the Pi-hole is accessible from your current network.")
         }
-    }
-    
-    @ObservedObject var dataStore: PiHoleDataStore
-    let status: Status
-    init(_ dataStore: PiHoleDataStore, status: Status) {
-        self.dataStore = dataStore
-        self.status = status
     }
 }
 
 struct PiHoleDetailsView_Previews: PreviewProvider {
-    static var dataStore: PiHoleDataStore {
-        get {
-            let _dataStore = PiHoleDataStore()
-            _dataStore.pihole = PiholeStatus.success(Status.disabled("20"))
-            return _dataStore
-        }
-    }
-    
     static var previews: some View {
-        PiHoleDetailsView(self.dataStore)
+        PiHoleDetailsView()
     }
 }

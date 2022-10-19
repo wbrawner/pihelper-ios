@@ -11,23 +11,24 @@ import SwiftUI
 struct OrDivider: View {
     let orientation: Orientation
     
+    @ViewBuilder
     var body: some View {
         if orientation == .horizontal {
-            return HStack {
+            HStack {
                 Rectangle()
                     .frame(height: 2)
                 Text("or")
                 Rectangle()
                     .frame(height: 2)
-            }.toAnyView()
+            }
         } else {
-            return VStack {
+            VStack {
                 Rectangle()
                     .frame(width: 2)
                 Text("or")
                 Rectangle()
                     .frame(width: 2)
-            }.toAnyView()
+            }
         }
     }
     
