@@ -56,12 +56,12 @@ struct PiholeStatusView: View {
             if let status = store.state.status {
                 Text(status.localizedStringKey)
                     .foregroundColor(status.foregroundColor)
+                if status is Status.Disabled, let timeRemaining = (status as! Status.Disabled).timeRemaining {
+                    Text("(\(timeRemaining))")
+                        .monospacedDigit()
+                        .foregroundColor(status.foregroundColor)
+                }
             }
-//            if case let .disabled(duration) = store.state.status, let durationString = duration {
-//                Text("(\(durationString))")
-//                    .monospacedDigit()
-//                    .foregroundColor(store.state.status.foregroundColor)
-//            }
         }
     }
 }
@@ -77,13 +77,13 @@ struct PiHoleActions: View {
     @ViewBuilder
     var stateContent: some View {
         switch self.store.state.status {
-        case Pihelper.Status.disabled:
+        case is Pihelper.Status.Disabled:
             Button(action: {
                 self.store.dispatch(ActionEnable())
             }, label: { Text("enable") })
                 .buttonStyle(PiHelperButtonStyle(.green))
                 .padding(Edge.Set(arrayLiteral: [.bottom, .top]), 5.0)
-        case Pihelper.Status.enabled:
+        case is Pihelper.Status.Enabled:
             VStack {
                 Button(action: {
                     self.store.dispatch(ActionDisable(duration: 10))

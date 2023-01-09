@@ -40,23 +40,14 @@ extension Digest {
 
 extension Status {
     var localizedStringKey: LocalizedStringKey {
-        var key: String
-        switch self {
-        case .enabled:
-            key = "enabled"
-        case .disabled:
-            key = "disabled"
-        default:
-            key = "unknown"
-        }
-        return LocalizedStringKey(key)
+        return LocalizedStringKey(self.name)
     }
     
     var foregroundColor: Color {
         switch self {
-        case .enabled:
+        case is Enabled:
             return .green
-        case .disabled:
+        case is Disabled:
             return .red
         default:
             return .gray
